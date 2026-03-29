@@ -4,71 +4,85 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Category;
+use App\Models\User;
 
 class ProductController extends Controller
 {
 
     public function index()
     {
-        return Product::with('category', 'updatedByUser')->get();
+        $products = Product::with('category', 'updatedByUser')->paginate(10);
+        return view('products.index', compact('products'));
     }
 
 
-    // 💾 Guardar producto
+    //  Guardar producto
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'category_id' => 'required|exists:categories,id',
+            'category_id' => 'nullable|exists:categories,id',
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'unit_price' => 'required|numeric',
             'stock' => 'required|integer',
-            'image_url' => 'nullable|string',
-            'updated_by' => 'required|exists:users,id'
+            'image_url' => 'nullable|string'
         ]);
 
-        $product = Product::create($validated);
+        $validated['updated_by'] = auth()->id();
 
-        return response()->json($product);
+        Product::create($validated);
+
+        return redirect()->route('products.index')->with('success', 'Producto creado correctamente.');
     }
 
-    // 🔍 Mostrar un producto (usa Route Model Binding)
+    // Mostrar un producto (usa Route Model Binding)
     public function show(Product $product)
     {
-        return $product->load('category', 'updatedByUser');
+        $product->load('category', 'updatedByUser');
+        return view('products.show', compact('product'));
     }
 
-    // ✏️ Mostrar formulario edición (opcional)
+    // Crear producto - Mostrar formulario
+    public function create()
+    {
+        $categories = Category::all();
+        $users = User::all();
+        return view('products.create', compact('categories', 'users'));
+    }
+
+    // Mostrar formulario edición
     public function edit(Product $product)
     {
-        return $product;
+        $categories = Category::all();
+        $users = User::all();
+        return view('products.edit', compact('product', 'categories', 'users'));
     }
 
-    // 🔄 Actualizar producto
+    //  Actualizar producto
     public function update(Request $request, Product $product)
     {
         $validated = $request->validate([
-            'category_id' => 'sometimes|exists:categories,id',
+            'category_id' => 'nullable|exists:categories,id',
             'name' => 'sometimes|string|max:255',
             'description' => 'nullable|string',
             'unit_price' => 'sometimes|numeric',
             'stock' => 'sometimes|integer',
-            'image_url' => 'nullable|string',
-            'updated_by' => 'sometimes|exists:users,id'
+            'image_url' => 'nullable|string'
         ]);
+
+        $validated['updated_by'] = auth()->id();
 
         $product->update($validated);
 
-        return response()->json($product);
+        return redirect()->route('products.show', $product)->with('success', 'Producto actualizado correctamente.');
     }
 
-    // 🗑️ Eliminar producto
+    // Eliminar producto
     public function destroy(Product $product)
     {
         $product->delete();
 
-        return response()->json([
-            'message' => 'Producto eliminado correctamente'
-        ]);
+        return redirect()->route('products.index')->with('success', 'Producto eliminado correctamente.');
     }
 }
