@@ -3,87 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalle del Producto</title>
-
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/products.css') }}">
-
+    <title>Detalle del Producto - Givaja</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body style="background-color: #f2f2f2; color: #333;">
-    <div class="container-fluid px-5 py-5">
-        <div class="card shadow p-4" style="border-radius: 20px; border: 2px solid #6fcf97; background-color: #e9e9e9;">
-
-            <h2 class="text-center mb-4">Detalle del Producto</h2>
-
-            <div class="row mb-4">
-                <!-- Imagen a la izquierda -->
-                <div class="col-md-5">
-                    <div class="text-center">
-                        @if($product->image_url)
-                            <img src="{{ $product->image_url }}" class="img-fluid" style="max-width: 100%; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                        @else
-                            <div style="background-color: #ddd; height: 300px; display: flex; align-items: center; justify-content: center; border-radius: 10px;">
-                                <span class="text-muted">Sin imagen</span>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-
-                <!-- Texto a la derecha -->
-                <div class="col-md-7">
-                    <div class="mb-3">
-                        <p class="mb-2"><strong style="color: #6fcf97;">Nombre:</strong></p>
-                        <p class="ms-2">{{ $product->name }}</p>
-                    </div>
-
-                    <div class="mb-3">
-                        <p class="mb-2"><strong style="color: #6fcf97;">Descripción:</strong></p>
-                        <p class="ms-2">{{ $product->description }}</p>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <p class="mb-2"><strong style="color: #6fcf97;">Precio:</strong></p>
-                                <p class="ms-2">${{ number_format($product->unit_price, 2) }}</p>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <p class="mb-2"><strong style="color: #6fcf97;">Stock:</strong></p>
-                                <p class="ms-2">
-                                    <span class="badge {{ $product->stock > 0 ? 'badge-green' : 'badge-red' }}">
-                                        {{ $product->stock }} unidades
-                                    </span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <p class="mb-2"><strong style="color: #6fcf97;">Categoría:</strong></p>
-                        <p class="ms-2">{{ $product->category->name ?? 'Sin categoría' }}</p>
-                    </div>
-
-                    <div class="mb-4">
-                        <p class="mb-2"><strong style="color: #6fcf97;">Última actualización por:</strong></p>
-                        <p class="ms-2">{{ $product->updatedByUser->name ?? 'Sin usuario' }}</p>
-                    </div>
-                </div>
-            </div>
-
+<body>
+    <!-- Navegación -->
+    <nav class="navbar navbar-dark" style="background-color: #6fcf97;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">Givaja</a>
             <div class="d-flex gap-2">
-                <a href="{{ route('products.edit', $product) }}" class="btn w-50" style="background-color: #6fcf97; color: white; border-radius: 10px;">
-                    Editar
-                </a>
-                <a href="/products" class="btn w-50" style="border: 2px solid #6fcf97; color: #6fcf97; border-radius: 10px; background-color: transparent;">
-                    Volver
-                </a>
+                <a href="{{ route('products.index') }}" class="btn btn-light btn-sm">Productos</a>
+                <a href="{{ route('categories.index') }}" class="btn btn-light btn-sm">Categorías</a>
             </div>
+        </div>
+    </nav>
 
+    <div class="container mt-4">
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
+
+        <div class="card shadow">
+            <div class="card-header" style="background-color: #6fcf97; color: white;">
+                <h5 class="mb-0">Detalle del Producto</h5>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-2">
+                        <strong>ID:</strong>
+                    </div>
+                    <div class="col-md-10">
+                        {{ $product->id }}
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-2">
+                        <strong>Nombre:</strong>
+                    </div>
+                    <div class="col-md-10">
+                        {{ $product->name }}
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-2">
+                        <strong>Descripción:</strong>
+                    </div>
+                    <div class="col-md-10">
+                        {{ $product->description ?? 'N/A' }}
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-2">
+                        <strong>Precio:</strong>
+                    </div>
+                    <div class="col-md-10">
+                        ${{ number_format($product->unit_price, 2) }}
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-2">
+                        <strong>Stock:</strong>
+                    </div>
+                    <div class="col-md-10">
+                        {{ $product->stock }}
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-2">
+                        <strong>Imagen URL:</strong>
+                    </div>
+                    <div class="col-md-10">
+                        {{ $product->image_url ?? 'N/A' }}
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-2">
+                        <strong>Categoría:</strong>
+                    </div>
+                    <div class="col-md-10">
+                        {{ $product->category->name ?? 'Sin categoría' }}
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-2">
+                        <strong>Actualizado por:</strong>
+                    </div>
+                    <div class="col-md-10">
+                        {{ $product->updatedByUser->first_name ?? 'Sin usuario' }} {{ $product->updatedByUser->last_name ?? '' }}
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-2">
+                        <strong>Creado:</strong>
+                    </div>
+                    <div class="col-md-10">
+                        {{ $product->created_at->format('d/m/Y H:i') }}
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-2">
+                        <strong>Actualizado:</strong>
+                    </div>
+                    <div class="col-md-10">
+                        {{ $product->updated_at->format('d/m/Y H:i') }}
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer d-flex gap-2">
+                <a href="{{ route('products.edit', $product) }}" class="btn btn-warning">Editar</a>
+                <a href="{{ route('products.index') }}" class="btn btn-secondary">Volver</a>
+                <form action="{{ route('products.destroy', $product) }}" method="POST" class="ms-auto">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('¿Está seguro?')">Eliminar</button>
+                </form>
+            </div>
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

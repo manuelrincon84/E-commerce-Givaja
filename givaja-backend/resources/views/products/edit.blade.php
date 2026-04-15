@@ -3,122 +3,158 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Producto</title>
-
-    <!-- Bootstrap -->
+    <title>Editar Producto - Givaja</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Tu CSS -->
     <link rel="stylesheet" href="{{ asset('css/products.css') }}">
 </head>
 <body style="background-color: #f2f2f2; color: #333;">
+    <nav class="navbar navbar-expand-lg" style="background-color: #6fcf97; font-size: medium;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/" style="color: white !important; font-weight: bold;">Givaja</a>
+        </div>
+    </nav>
 
-<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+        <div class="card shadow p-4" style="width: 840px; border-radius: 20px; border: 2px solid #6fcf97; background-color: #e9e9e9;">
+            <h3 class="text-center mb-4">Editar Producto</h3>
 
-    <div class="card shadow p-4" style="width: 840px; border-radius: 20px; border: 2px solid #6fcf97; background-color: #e9e9e9;">
-
-        <h3 class="text-center mb-4">Editar Producto</h3>
-
-        @if($errors->any())
-            <div class="alert alert-danger">
-                <ul class="mb-0">
-                    @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
-        <form method="POST" action="{{ route('products.update', $product) }}">
-            @csrf
-            @method('PUT')
-
-            <!-- Fila 1: Nombre y Precio -->
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label class="form-label">Nombre:</label>
-                        <input type="text" name="name" class="form-control" value="{{ old('name', $product->name) }}">
-                    </div>
+            @if($errors->any())
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
                 </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label class="form-label">Precio:</label>
-                        <input type="number" step="0.01" name="unit_price" class="form-control" value="{{ old('unit_price', $product->unit_price) }}">
-                    </div>
-                </div>
-            </div>
+            @endif
+                <form method="POST" action="{{ route('products.update', $product) }}">
+                    @csrf
+                    @method('PUT')
 
-            <!-- Fila 2: Descripción (columna completa) -->
-            <div class="row">
-                <div class="col-md-12">
                     <div class="mb-3">
-                        <label class="form-label">Descripción:</label>
-                        <textarea name="description" class="form-control">{{ old('description', $product->description) }}</textarea>
+                        <label for="name" class="form-label">Nombre <span style="color: #6fcf97;">*</span></label>
+                        <input
+                            type="text"
+                            class="form-control @error('name') is-invalid @enderror"
+                            id="name"
+                            name="name"
+                            value="{{ old('name', $product->name) }}"
+                            required>
+                        @error('name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
-                </div>
-            </div>
 
-            <!-- Fila 3: Stock e Imagen URL -->
-            <div class="row">
-                <div class="col-md-6">
                     <div class="mb-3">
-                        <label class="form-label">Stock:</label>
-                        <input type="number" name="stock" class="form-control" value="{{ old('stock', $product->stock) }}">
+                        <label for="description" class="form-label">Descripción</label>
+                        <textarea
+                            class="form-control @error('description') is-invalid @enderror"
+                            id="description"
+                            name="description"
+                            rows="4">{{ old('description', $product->description) }}</textarea>
+                        @error('description')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label class="form-label">Imagen URL:</label>
-                        <input type="text" name="image_url" class="form-control" value="{{ old('image_url', $product->image_url) }}">
-                    </div>
-                </div>
-            </div>
 
-            <!-- Fila 4: Categoría y Usuario -->
-            <div class="row">
-                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="unit_price" class="form-label">Precio <span style="color: #6fcf97;">*</span></label>
+                                <input
+                                    type="number"
+                                    step="0.01"
+                                    class="form-control @error('unit_price') is-invalid @enderror"
+                                    id="unit_price"
+                                    name="unit_price"
+                                    value="{{ old('unit_price', $product->unit_price) }}"
+                                    required>
+                                @error('unit_price')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="stock" class="form-label">Stock <span style="color: #6fcf97;">*</span></label>
+                                <input
+                                    type="number"
+                                    class="form-control @error('stock') is-invalid @enderror"
+                                    id="stock"
+                                    name="stock"
+                                    value="{{ old('stock', $product->stock) }}"
+                                    required>
+                                @error('stock')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="mb-3">
-                        <label class="form-label">Categoría:</label>
-                        <select name="category_id" class="form-select" required>
-                            <option value="">Seleccione una categoría</option>
+                        <label for="image_url" class="form-label">URL de Imagen</label>
+                        <input
+                            type="text"
+                            class="form-control @error('image_url') is-invalid @enderror"
+                            id="image_url"
+                            name="image_url"
+                            value="{{ old('image_url', $product->image_url) }}">
+                        @error('image_url')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="category_id" class="form-label">Categoría <span style="color: #6fcf97;">*</span></label>
+                        <select
+                            class="form-select @error('category_id') is-invalid @enderror"
+                            id="category_id"
+                            name="category_id"
+                            required>
+                            <option value="">-- Seleccione una categoría --</option>
                             @foreach($categories as $category)
-                                <option value="{{ $category->id }}"
+                                <option
+                                    value="{{ $category->id }}"
                                     {{ old('category_id', $product->category_id) == $category->id ? 'selected' : '' }}>
                                     {{ $category->name }}
                                 </option>
                             @endforeach
                         </select>
+                        @error('category_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
-                </div>
-                <div class="col-md-6">
+
                     <div class="mb-3">
-                        <label class="form-label">Usuario:</label>
-                        <select name="updated_by" class="form-select" required>
-                            <option value="">Seleccione un usuario</option>
+                        <label for="updated_by" class="form-label">Actualizado por <span style="color: #6fcf97;">*</span></label>
+                        <select
+                            class="form-select @error('updated_by') is-invalid @enderror"
+                            id="updated_by"
+                            name="updated_by"
+                            required>
+                            <option value="">-- Seleccione un usuario --</option>
                             @foreach($users as $user)
-                                <option value="{{ $user->id }}"
+                                <option
+                                    value="{{ $user->id }}"
                                     {{ old('updated_by', $product->updated_by) == $user->id ? 'selected' : '' }}>
-                                    {{ $user->name }}
+                                    {{ $user->first_name }} {{ $user->last_name }}
                                 </option>
                             @endforeach
                         </select>
+                        @error('updated_by')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
-                </div>
+
+                    <div class="d-flex gap-2 mt-4">
+                        <button type="submit" class="btn" style="background-color: #6fcf97; color: white; border-radius: 10px; padding: 10px 20px;">Guardar Cambios</button>
+                        <a href="{{ route('products.index') }}" class="btn" style="border: 2px solid #6fcf97; color: #6fcf97; border-radius: 10px; padding: 10px 20px; background-color: transparent;">Cancelar</a>
+                    </div>
+                </form>
             </div>
-
-            <button type="submit" class="btn w-100" style="background-color: #6fcf97; color: white; border-radius: 10px;">
-                Actualizar
-            </button>
-        </form>
-
-        <a href="/products" class="btn w-100 mt-3" style="border: 2px solid #6fcf97; color: #6fcf97; border-radius: 10px;">
-            Volver
-        </a>
-
+        </div>
     </div>
 
-</div>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
