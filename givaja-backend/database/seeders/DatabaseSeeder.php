@@ -16,36 +16,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Crear categorías de prueba
-        Category::create([
-            'name' => 'Electrónica',
-            'description' => 'Productos electrónicos en general'
-        ]);
-
-        Category::create([
-            'name' => 'Ropa',
-            'description' => 'Prendas de vestir'
-        ]);
-
-        Category::create([
-            'name' => 'Libros',
-            'description' => 'Libros y material de lectura'
-        ]);
-
-        Category::create([
-            'name' => 'Hogar',
-            'description' => 'Artículos para el hogar'
-        ]);
-
-        // Crear usuarios de prueba
-        User::factory()->create([
-            'name' => 'Admin User',
-            'email' => 'admin@givaja.com',
-        ]);
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+       $this->call([
+            CategorySeeder::class,
+            UserSeeder::class,
+            ProductSeeder::class,
         ]);
     }
 }
