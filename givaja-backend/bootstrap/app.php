@@ -11,10 +11,15 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-    // Esto asegura que la Debugbar se registre en el grupo web
+
+    $middleware->web(append: [
+        \App\Http\Middleware\HandleInertiaRequests::class,
+    ]);
+
     $middleware->alias([
         'debugbar' => \Fruitcake\LaravelDebugbar\Middleware\DebugbarEnabled::class,
     ]);
+
 })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

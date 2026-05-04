@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
+use inertia\Inertia;
 
 class ProductController extends Controller
 {
@@ -15,8 +16,11 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::with('category', 'updatedByUser')->paginate(15);
-        return view('products.index', compact('products'));
+        return Inertia::render('Home', [
+            'products' => $products
+        ]);
     }
+
 
     /**
      * Show the form for creating a new product
@@ -65,6 +69,7 @@ class ProductController extends Controller
         $categories = Category::all();
         $users = User::all();
         return view('products.edit', compact('product', 'categories', 'users'));
+
     }
 
     /**

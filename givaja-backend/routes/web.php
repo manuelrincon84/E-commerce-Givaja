@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
+use App\Http\Controllers\ProductController;
 
-Route::get('/', function () {
-    return view('inicio');
-});
+Route::get('/', [ProductController::class, 'index']);
 
 // Resource routes
 Route::resource('users', \App\Http\Controllers\UserController::class);
