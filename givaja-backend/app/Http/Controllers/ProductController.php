@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Category;
-use App\Models\User;
 use Illuminate\Http\Request;
-use inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class ProductController extends Controller
 {
@@ -16,20 +16,20 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::with('category', 'updatedByUser')->paginate(15);
-        return Inertia::render('Home', [
-            'products' => $products
+
+        return Inertia::render('products/Index', [
+            'products' => $products,
         ]);
     }
-
 
     /**
      * Show the form for creating a new product
      */
     public function create()
     {
-        $categories = Category::all();
-        $users = User::all();
-        return view('products.create', compact('categories', 'users'));
+        return Inertia::render('products/Create', [
+            'categories' => Category::all(['id', 'name']),
+        ]);
     }
 
     /**
@@ -39,17 +39,19 @@ class ProductController extends Controller
     {
         $validated = $request->validate([
             'category_id' => 'required|exists:categories,id',
-            'name' => 'required|string|max:255',
+            'name'        => 'required|string|max:255',
             'description' => 'nullable|string',
-            'unit_price' => 'required|numeric|min:0.01',
-            'stock' => 'required|integer|min:0',
-            'image_url' => 'nullable|url',
-            'updated_by' => 'required|exists:users,id',
+            'unit_price'  => 'required|numeric|min:0.01',
+            'stock'       => 'required|integer|min:0',
+            'image_url'   => 'nullable|url',
         ]);
+
+        $validated['updated_by'] = Auth::id();
 
         Product::create($validated);
 
-        return redirect()->route('products.index')->with('success', 'Producto creado exitosamente.');
+        return redirect()->route('products.index')
+            ->with('success', 'Producto creado exitosamente.');
     }
 
     /**
@@ -57,8 +59,9 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        $product->load('category', 'updatedByUser');
-        return view('products.show', compact('product'));
+        return Inertia::render('products/Show', [
+            'product' => $product->load('category', 'updatedByUser'),
+        ]);
     }
 
     /**
@@ -66,10 +69,10 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        $categories = Category::all();
-        $users = User::all();
-        return view('products.edit', compact('product', 'categories', 'users'));
-
+        return Inertia::render('products/Edit', [
+            'product'    => $product,
+            'categories' => Category::all(['id', 'name']),
+        ]);
     }
 
     /**
@@ -79,17 +82,19 @@ class ProductController extends Controller
     {
         $validated = $request->validate([
             'category_id' => 'required|exists:categories,id',
-            'name' => 'required|string|max:255',
+            'name'        => 'required|string|max:255',
             'description' => 'nullable|string',
-            'unit_price' => 'required|numeric|min:0.01',
-            'stock' => 'required|integer|min:0',
-            'image_url' => 'nullable|url',
-            'updated_by' => 'required|exists:users,id',
+            'unit_price'  => 'required|numeric|min:0.01',
+            'stock'       => 'required|integer|min:0',
+            'image_url'   => 'nullable|url',
         ]);
+
+        $validated['updated_by'] = Auth::id();
 
         $product->update($validated);
 
-        return redirect()->route('products.index')->with('success', 'Producto actualizado exitosamente.');
+        return redirect()->route('products.index')
+            ->with('success', 'Producto actualizado exitosamente.');
     }
 
     /**
@@ -98,6 +103,8 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         $product->delete();
-        return redirect()->route('products.index')->with('success', 'Producto eliminado exitosamente.');
+
+        return redirect()->route('products.index')
+            ->with('success', 'Producto eliminado exitosamente.');
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\OrderDetail;
 use App\Models\Order;
 use App\Models\Product;
+use Inertia\Inertia;
 use Illuminate\Http\Request;
 
 class OrderDetailController extends Controller
@@ -15,7 +16,7 @@ class OrderDetailController extends Controller
     public function index()
     {
         $orderDetails = OrderDetail::with('order', 'product')->paginate(15);
-        return view('order-details.index', compact('orderDetails'));
+        return Inertia::render('order-details/Index', ['orderDetails' => $orderDetails]);
     }
 
     /**
@@ -25,7 +26,7 @@ class OrderDetailController extends Controller
     {
         $orders = Order::all();
         $products = Product::all();
-        return view('order-details.create', compact('orders', 'products'));
+        return Inertia::render('order-details/Create', ['orders' => $orders, 'products' => $products]);
     }
 
     /**
@@ -50,7 +51,7 @@ class OrderDetailController extends Controller
      */
     public function show(OrderDetail $orderDetail)
     {
-        return view('order-details.show', compact('orderDetail'));
+        return Inertia::render('order-details/Show', ['orderDetail' => $orderDetail->load('order', 'product')]);
     }
 
     /**
@@ -60,7 +61,7 @@ class OrderDetailController extends Controller
     {
         $orders = Order::all();
         $products = Product::all();
-        return view('order-details.edit', compact('orderDetail', 'orders', 'products'));
+        return Inertia::render('order-details/Edit', ['orderDetail' => $orderDetail, 'orders' => $orders, 'products' => $products]);
     }
 
     /**

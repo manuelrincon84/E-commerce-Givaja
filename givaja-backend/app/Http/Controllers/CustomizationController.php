@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Customization;
 use App\Models\Product;
+use Inertia\Inertia;
 use Illuminate\Http\Request;
 
 class CustomizationController extends Controller
@@ -14,7 +15,7 @@ class CustomizationController extends Controller
     public function index()
     {
         $customizations = Customization::with('product')->paginate(15);
-        return view('customizations.index', compact('customizations'));
+        return Inertia::render('customizations/Index', ['customizations' => $customizations]);
     }
 
     /**
@@ -23,7 +24,7 @@ class CustomizationController extends Controller
     public function create()
     {
         $products = Product::all();
-        return view('customizations.create', compact('products'));
+        return Inertia::render('customizations/Create', ['products' => $products]);
     }
 
     /**
@@ -49,7 +50,7 @@ class CustomizationController extends Controller
      */
     public function show(Customization $customization)
     {
-        return view('customizations.show', compact('customization'));
+        return Inertia::render('customizations/Show', ['customization' => $customization]);
     }
 
     /**
@@ -58,7 +59,7 @@ class CustomizationController extends Controller
     public function edit(Customization $customization)
     {
         $products = Product::all();
-        return view('customizations.edit', compact('customization', 'products'));
+        return Inertia::render('customizations/Edit', ['customization' => $customization, 'products' => $products]);
     }
 
     /**

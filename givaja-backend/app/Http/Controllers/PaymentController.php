@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Payment;
 use App\Models\Order;
+use Inertia\Inertia;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
@@ -14,7 +15,7 @@ class PaymentController extends Controller
     public function index()
     {
         $payments = Payment::with('order')->paginate(15);
-        return view('payments.index', compact('payments'));
+        return Inertia::render('payments/Index', ['payments' => $payments]);
     }
 
     /**
@@ -23,7 +24,7 @@ class PaymentController extends Controller
     public function create()
     {
         $orders = Order::all();
-        return view('payments.create', compact('orders'));
+        return Inertia::render('payments/Create', ['orders' => $orders]);
     }
 
     /**
@@ -48,7 +49,7 @@ class PaymentController extends Controller
      */
     public function show(Payment $payment)
     {
-        return view('payments.show', compact('payment'));
+        return Inertia::render('payments/Show', ['payment' => $payment->load('order')]);
     }
 
     /**
@@ -57,7 +58,7 @@ class PaymentController extends Controller
     public function edit(Payment $payment)
     {
         $orders = Order::all();
-        return view('payments.edit', compact('payment', 'orders'));
+        return Inertia::render('payments/Edit', ['payment' => $payment, 'orders' => $orders]);
     }
 
     /**

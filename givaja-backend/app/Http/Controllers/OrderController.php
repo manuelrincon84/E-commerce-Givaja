@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\User;
+use Inertia\Inertia;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -14,7 +15,7 @@ class OrderController extends Controller
     public function index()
     {
         $orders = Order::with('user')->paginate(15);
-        return view('orders.index', compact('orders'));
+        return Inertia::render('orders/Index', ['orders' => $orders]);
     }
 
     /**
@@ -23,7 +24,7 @@ class OrderController extends Controller
     public function create()
     {
         $users = User::all();
-        return view('orders.create', compact('users'));
+        return Inertia::render('orders/Create', ['users' => $users]);
     }
 
     /**
@@ -48,7 +49,7 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        return view('orders.show', compact('order'));
+        return Inertia::render('orders/Show', ['order' => $order->load('user', 'orderDetails.product')]);
     }
 
     /**
@@ -57,7 +58,7 @@ class OrderController extends Controller
     public function edit(Order $order)
     {
         $users = User::all();
-        return view('orders.edit', compact('order', 'users'));
+        return Inertia::render('orders/Edit', ['order' => $order, 'users' => $users]);
     }
 
     /**

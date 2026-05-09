@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\User;
+use Inertia\Inertia;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -14,7 +15,10 @@ class CartController extends Controller
     public function index()
     {
         $carts = Cart::with('user')->paginate(15);
-        return view('carts.index', compact('carts'));
+        return Inertia::render('carts/Index', [
+            'carts' => $carts,
+        ]);
+
     }
 
     /**
@@ -23,7 +27,7 @@ class CartController extends Controller
     public function create()
     {
         $users = User::all();
-        return view('carts.create', compact('users'));
+        return Inertia::render('carts/Create', ['users' => $users]);
     }
 
     /**
@@ -45,7 +49,7 @@ class CartController extends Controller
      */
     public function show(Cart $cart)
     {
-        return view('carts.show', compact('cart'));
+        return Inertia::render('carts/Show', ['cart' => $cart]);
     }
 
     /**
@@ -54,7 +58,7 @@ class CartController extends Controller
     public function edit(Cart $cart)
     {
         $users = User::all();
-        return view('carts.edit', compact('cart', 'users'));
+        return Inertia::render('carts/Edit', ['cart' => $cart, 'users' => $users]);
     }
 
     /**

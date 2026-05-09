@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CartItem;
 use App\Models\Cart;
 use App\Models\Product;
+use Inertia\Inertia;
 use Illuminate\Http\Request;
 
 class CartItemController extends Controller
@@ -15,7 +16,7 @@ class CartItemController extends Controller
     public function index()
     {
         $cartItems = CartItem::with('cart', 'product')->paginate(15);
-        return view('cart-items.index', compact('cartItems'));
+        return Inertia::render('cart-items/Index', ['cartItems' => $cartItems]);
     }
 
     /**
@@ -25,7 +26,7 @@ class CartItemController extends Controller
     {
         $carts = Cart::all();
         $products = Product::all();
-        return view('cart-items.create', compact('carts', 'products'));
+        return Inertia::render('cart-items/Create', ['carts' => $carts, 'products' => $products]);
     }
 
     /**
@@ -49,7 +50,7 @@ class CartItemController extends Controller
      */
     public function show(CartItem $cartItem)
     {
-        return view('cart-items.show', compact('cartItem'));
+        return Inertia::render('cart-items/Show', ['cartItem' => $cartItem]);
     }
 
     /**
@@ -59,7 +60,7 @@ class CartItemController extends Controller
     {
         $carts = Cart::all();
         $products = Product::all();
-        return view('cart-items.edit', compact('cartItem', 'carts', 'products'));
+        return Inertia::render('cart-items/Edit', ['cartItem' => $cartItem, 'carts' => $carts, 'products' => $products]);
     }
 
     /**

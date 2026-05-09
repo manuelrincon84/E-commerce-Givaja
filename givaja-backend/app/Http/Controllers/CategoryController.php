@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use Inertia\Inertia;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -13,7 +14,7 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::all();
-        return view('categories.index', compact('categories'));
+        return Inertia::render('categories/Index', ['categories' => $categories,]);
     }
 
     /**
@@ -21,7 +22,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('categories.create');
+        return Inertia::render('categories/Create');
     }
 
     /**
@@ -44,7 +45,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        return view('categories.show', compact('category'));
+        return Inertia::render('categories/Show', ['category' => $category]);
     }
 
     /**
@@ -52,7 +53,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        return view('categories.edit', compact('category'));
+        return Inertia::render('categories/Edit', ['category' => $category]);
     }
 
     /**
