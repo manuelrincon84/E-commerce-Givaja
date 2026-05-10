@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -29,6 +30,7 @@ class ProductController extends Controller
     {
         return Inertia::render('products/Create', [
             'categories' => Category::all(['id', 'name']),
+            'users' => User::all(['id', 'first_name', 'last_name']),
         ]);
     }
 
@@ -44,9 +46,8 @@ class ProductController extends Controller
             'unit_price'  => 'required|numeric|min:0.01',
             'stock'       => 'required|integer|min:0',
             'image_url'   => 'nullable|url',
+            'updated_by'  => 'required|exists:users,id',
         ]);
-
-        $validated['updated_by'] = Auth::id();
 
         Product::create($validated);
 
@@ -72,6 +73,7 @@ class ProductController extends Controller
         return Inertia::render('products/Edit', [
             'product'    => $product,
             'categories' => Category::all(['id', 'name']),
+            'users' => User::all(['id', 'first_name', 'last_name']),
         ]);
     }
 
@@ -87,9 +89,8 @@ class ProductController extends Controller
             'unit_price'  => 'required|numeric|min:0.01',
             'stock'       => 'required|integer|min:0',
             'image_url'   => 'nullable|url',
+            'updated_by'  => 'required|exists:users,id',
         ]);
-
-        $validated['updated_by'] = Auth::id();
 
         $product->update($validated);
 

@@ -10,6 +10,7 @@ export default function MainLayout({ children }) {
         </a>
 
         <div className="space-x-4">
+            <a href="/home">Inicio </a>
           <a href="/users">Usuarios</a>
           <a href="/categories">Categorías</a>
           <a href="/products">Productos</a>

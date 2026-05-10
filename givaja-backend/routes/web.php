@@ -1,19 +1,79 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrderDetailController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CartItemController;
+use App\Http\Controllers\CustomizationController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PaymentController;
+use Inertia\Inertia;
 
-Route::get('/', [ProductController::class, 'index']);
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Aquí se registran las rutas web de la aplicación.
+| Se utiliza Inertia.js para renderizar vistas React y Laravel
+| como backend principal.
+|
+*/
 
-// Resource routes
-Route::resource('users', \App\Http\Controllers\UserController::class);
-Route::resource('categories', \App\Http\Controllers\CategoryController::class);
-Route::resource('products', \App\Http\Controllers\ProductController::class);
-Route::resource('orders', \App\Http\Controllers\OrderController::class);
-Route::resource('order-details', \App\Http\Controllers\OrderDetailController::class);
-Route::resource('carts', \App\Http\Controllers\CartController::class);
-Route::resource('cart-items', \App\Http\Controllers\CartItemController::class);
-Route::resource('customizations', \App\Http\Controllers\CustomizationController::class);
-Route::resource('payments', \App\Http\Controllers\PaymentController::class);
+Route::get('/', [HomeController::class, 'index']) ->name('home');
+Route::get('/home', [HomeController::class, 'index']) ->name('home')
+;
 
+/*
+|--------------------------------------------------------------------------
+| Static Pages (Inertia)
+|--------------------------------------------------------------------------
+*/
+
+Route::inertia('/dashboard', 'Dashboard')
+    ->name('dashboard');
+
+/*
+|--------------------------------------------------------------------------
+| Resource Routes
+|--------------------------------------------------------------------------
+|
+| CRUD completos manejados mediante controllers.
+| Los controllers retornan Inertia::render(...)
+|
+*/
+
+Route::resource('products', ProductController::class);
+
+Route::resource('categories', CategoryController::class);
+
+Route::resource('users', UserController::class);
+
+Route::resource('orders', OrderController::class);
+
+Route::resource('order-details', OrderDetailController::class);
+
+Route::resource('carts', CartController::class);
+
+Route::resource('cart-items', CartItemController::class);
+
+Route::resource('customizations', CustomizationController::class);
+
+Route::resource('payments', PaymentController::class);
+
+/*
+|--------------------------------------------------------------------------
+| Fallback Route
+|--------------------------------------------------------------------------
+|
+| Redirige cualquier ruta inexistente al home.
+|
+*/
+
+Route::fallback(function () {
+    return redirect()->route('products.index');
+});

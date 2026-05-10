@@ -1,3 +1,74 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Custom Button Classes */
+.btn-primary {
+  @apply bg-green-400 hover:bg-green-500 text-white px-4 py-2 rounded font-medium transition;
+}
+
+.btn-danger {
+  @apply bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded font-medium transition;
+}
+
+.btn-secondary {
+  @apply bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded font-medium transition;
+}
+
+.btn-outline {
+  @apply border-2 border-green-400 text-green-400 px-4 py-2 rounded hover:bg-green-50 font-medium transition;
+}
+
+/* Badge Classes */
+.badge-success {
+  @apply inline-block bg-green-200 text-green-800 px-3 py-1 rounded-full text-sm font-medium;
+}
+
+.badge-danger {
+  @apply inline-block bg-red-200 text-red-800 px-3 py-1 rounded-full text-sm font-medium;
+}
+
+.badge-primary {
+  @apply inline-block bg-blue-200 text-blue-800 px-3 py-1 rounded-full text-sm font-medium;
+}
+
+/* Card & Container Classes */
+.card-section {
+  @apply bg-white rounded-xl shadow-lg p-6 border border-gray-200;
+}
+
+.card-form {
+  @apply bg-gray-200 p-6 rounded-2xl shadow-lg border-2 border-green-400;
+}
+
+.form-container {
+  @apply flex justify-center items-center min-h-screen;
+}
+
+.table-primary {
+  @apply w-full border-collapse bg-white rounded-lg shadow-md;
+}
+
+/* Input Field Classes */
+.input-field {
+  @apply w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-green-400;
+}
+
+.input-error {
+  @apply border-red-500;
+}
+
+/* Label Classes */
+.label-required::after {
+  content: " *";
+  @apply text-green-600;
+}
+
+/* Utilities */
+.text-muted {
+  @apply text-gray-500;
+}
+
+.transition-smooth {
+  @apply transition-all duration-300 ease-in-out;
+}

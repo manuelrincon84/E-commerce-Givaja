@@ -1,5 +1,6 @@
 import { useState } from "react";
 import MainLayout from "../layouts/MainLayout";
+import { data } from "autoprefixer";
 
 export default function Home({ products }) {
  const [selectedProduct, setSelectedProduct] = useState(null);
@@ -31,6 +32,26 @@ console.log('products:', products);
         ))}
 
       </div>
+      <div className="flex justify-center gap-2 mt-8">
+
+  {products.links.map((link, index) => (
+
+    <a
+      key={index}
+      href={link.url || '#'}
+      dangerouslySetInnerHTML={{ __html: link.label }}
+      className={`
+        px-4 py-2 rounded border
+        ${link.active
+          ? 'bg-green-400 text-white'
+          : 'bg-white text-gray-700'}
+        ${!link.url && 'opacity-50 pointer-events-none'}
+      `}
+    />
+
+  ))}
+
+</div>
 
       {/* MODAL */}
       {selectedProduct && (
