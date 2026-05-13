@@ -12,14 +12,29 @@ use Inertia\Inertia;
 class ProductController extends Controller
 {
     /**
-     * Display a listing of products
+     * Display a listing of products with optional search
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::with('category', 'updatedByUser')->paginate(15);
+        $search = $request->query('search', '');
+
+        $query = Product::with('category', 'updatedByUser');
+
+        // Aplicar búsqueda si existe
+        if ($search) {
+            $query->search($search, ['name', 'description']);
+            
+            // También buscar por categoría
+            $query->orWhereHas('category', function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%");
+            });
+        }
+
+        $products = $query->paginate(15);
 
         return Inertia::render('products/Index', [
             'products' => $products,
+            'search' => $search,
         ]);
     }
 

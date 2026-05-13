@@ -11,10 +11,18 @@ class UserController extends Controller
     /**
      * Display a listing of users
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::all();
-        return Inertia::render('users/Index', ['users' => $users]);
+        $search = $request->input('search', '');
+
+        $query = User::query();
+
+        if ($search) {
+            $query->search($search);
+        }
+
+        $users = $query->paginate(15);
+        return Inertia::render('users/Index', ['users' => $users, 'search' => $search]);
     }
 
     /**

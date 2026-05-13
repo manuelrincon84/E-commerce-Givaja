@@ -11,10 +11,18 @@ class CategoryController extends Controller
     /**
      * Display a listing of categories
      */
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Category::all();
-        return Inertia::render('categories/Index', ['categories' => $categories,]);
+        $search = $request->input('search', '');
+
+        $query = Category::query();
+
+        if ($search) {
+            $query->search($search);
+        }
+
+        $categories = $query->paginate(15);
+        return Inertia::render('categories/Index', ['categories' => $categories, 'search' => $search]);
     }
 
     /**

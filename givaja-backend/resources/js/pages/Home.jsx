@@ -1,14 +1,25 @@
 import { useState } from "react";
 import MainLayout from "../layouts/MainLayout";
+import SearchBox from "../components/SearchBox";
 import { data } from "autoprefixer";
 
-export default function Home({ products }) {
+export default function Home({ products, search = "" }) {
  const [selectedProduct, setSelectedProduct] = useState(null);
 console.log('products:', products);
   return (
     <MainLayout>
-
       <h1 className="text-2xl font-bold mb-6">Productos</h1>
+
+      {/* Buscador */}
+      <div className="mb-6">
+        <SearchBox
+          placeholder="Buscar por nombre, descripción, precio o categoría..."
+          route="/"
+          queryParam="search"
+          initialValue={search}
+          debounceDelay={300}
+        />
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 

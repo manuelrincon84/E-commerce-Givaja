@@ -12,10 +12,18 @@ class OrderController extends Controller
     /**
      * Display a listing of orders
      */
-    public function index()
+    public function index(Request $request)
     {
-        $orders = Order::with('user')->paginate(15);
-        return Inertia::render('orders/Index', ['orders' => $orders]);
+        $search = $request->input('search', '');
+
+        $query = Order::with('user');
+
+        if ($search) {
+            $query->search($search);
+        }
+
+        $orders = $query->paginate(15);
+        return Inertia::render('orders/Index', ['orders' => $orders, 'search' => $search]);
     }
 
     /**

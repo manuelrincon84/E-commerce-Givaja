@@ -4,8 +4,9 @@ import MainLayout from "../../layouts/MainLayout";
 import Table from "../../components/Table";
 import Modal from "../../components/Modal";
 import Alert from "../../components/Alert";
+import SearchBox from "../../components/SearchBox";
 
-export default function ProductsIndex({ products, flash }) {
+export default function ProductsIndex({ products, flash, search = "" }) {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [deleteId, setDeleteId] = useState(null);
   const { delete: deleteProduct } = useForm();
@@ -43,9 +44,30 @@ export default function ProductsIndex({ products, flash }) {
           </Link>
         </div>
 
+        {/* Buscador */}
+        <div className="mb-6">
+          <SearchBox
+            placeholder="Buscar por nombre, descripción, precio o categoría..."
+            route="/products"
+            queryParam="search"
+            initialValue={search}
+            debounceDelay={500}
+          />
+        </div>
+
         {flash?.success && <Alert message={flash.success} type="success" />}
 
-        <Table headers={headers} rows={products.data || []}>
+        {/* Mostrar mensaje si no hay resultados */}
+        {products.data && products.data.length === 0 ? (
+          <div className="text-center py-8">
+            <p className="text-gray-500">
+              {search
+                ? `No se encontraron productos para "${search}"`
+                : "No hay productos disponibles"}
+            </p>
+          </div>
+        ) : (
+          <Table headers={headers} rows={products.data || []}>
           {(product) => (
             <>
               <td className="px-6 py-4 text-sm text-gray-900">{product.id}</td>
@@ -116,7 +138,9 @@ export default function ProductsIndex({ products, flash }) {
             </>
           )}
         </Table>
+        )}
       </div>
+
       <div className="flex justify-center gap-2 mt-8">
         {products.links.map((link, index) => (
             <a

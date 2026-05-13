@@ -6,11 +6,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Category;
 use App\Models\User;
+use App\Traits\Searchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
+
+    /**
+     * Campos en los que se puede buscar
+     */
+    protected $searchable = [
+        'name',
+        'description',
+        'unit_price',
+    ];
     protected $fillable = [
         'category_id',
         'name',
