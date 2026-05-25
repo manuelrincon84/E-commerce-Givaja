@@ -37,7 +37,33 @@ class HandleInertiaRequests extends Middleware
     {
         return [
             ...parent::share($request),
-            //
+            'locale' => app()->getLocale(),
+            'supportedLocales' => ['en', 'es'],
+            'translations' => $this->getTranslations(),
         ];
+    }
+
+    /**
+     * Obtiene todas las traducciones del idioma actual
+     * @return array<string, array>
+     */
+    protected function getTranslations(): array
+    {
+        $locale = app()->getLocale();
+        $translations = [];
+
+        // Carga los archivos de traducción disponibles
+        $langPath = resource_path("lang/{$locale}");
+
+        if (is_dir($langPath)) {
+            foreach (scandir($langPath) as $file) {
+                if (str_ends_with($file, '.php')) {
+                    $key = str_replace('.php', '', $file);
+                    $translations[$key] = __($key);
+                }
+            }
+        }
+
+        return $translations;
     }
 }

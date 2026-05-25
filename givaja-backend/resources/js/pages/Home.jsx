@@ -1,20 +1,24 @@
 import { useState } from "react";
+import { Link } from "@inertiajs/react";
 import MainLayout from "../layouts/MainLayout";
 import SearchBox from "../components/SearchBox";
-import { data } from "autoprefixer";
+import useTranslate from "../hooks/useTranslate";
+import useLocalizedUrl from "../hooks/useLocalizedUrl";
 
 export default function Home({ products, search = "" }) {
- const [selectedProduct, setSelectedProduct] = useState(null);
-console.log('products:', products);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const t = useTranslate();
+  const localizedUrl = useLocalizedUrl();
+
   return (
     <MainLayout>
-      <h1 className="text-2xl font-bold mb-6">Productos</h1>
+      <h1 className="text-2xl font-bold mb-6">{t('products.title', 'Productos')}</h1>
 
       {/* Buscador */}
       <div className="mb-6">
         <SearchBox
-          placeholder="Buscar por nombre, descripción, precio o categoría..."
-          route="/"
+          placeholder={t('general.search', 'Buscar...')}
+          route={localizedUrl('/products')}
           queryParam="search"
           initialValue={search}
           debounceDelay={300}
@@ -46,20 +50,25 @@ console.log('products:', products);
       <div className="flex justify-center gap-2 mt-8">
 
   {products.links.map((link, index) => (
-
-    <a
-      key={index}
-      href={link.url || '#'}
-      dangerouslySetInnerHTML={{ __html: link.label }}
-      className={`
-        px-4 py-2 rounded border
-        ${link.active
-          ? 'bg-green-400 text-white'
-          : 'bg-white text-gray-700'}
-        ${!link.url && 'opacity-50 pointer-events-none'}
-      `}
-    />
-
+    link.url ? (
+      <Link
+        key={index}
+        href={localizedUrl(link.url)}
+        dangerouslySetInnerHTML={{ __html: link.label }}
+        className={`
+          px-4 py-2 rounded border
+          ${link.active
+            ? 'bg-green-400 text-white'
+            : 'bg-white text-gray-700 hover:bg-gray-100'}
+        `}
+      />
+    ) : (
+      <span
+        key={index}
+        dangerouslySetInnerHTML={{ __html: link.label }}
+        className="px-4 py-2 rounded border bg-gray-100 text-gray-400 opacity-50"
+      />
+    )
   ))}
 
 </div>
@@ -72,7 +81,7 @@ console.log('products:', products);
 
             <button
               onClick={() => setSelectedProduct(null)}
-              className="absolute top-2 right-2"
+              className="absolute top-2 right-2 text-2xl"
             >
               ✕
             </button>
@@ -89,14 +98,21 @@ console.log('products:', products);
             </p>
 
             <p className="font-semibold">
-              Precio: ${Number(selectedProduct.unit_price).toLocaleString()}
+              {t('general.price', 'Precio')}: ${Number(selectedProduct.unit_price).toLocaleString()}
             </p>
 
-            <p>Stock: {selectedProduct.stock}</p>
+            <p>{t('products.stock', 'Stock')}: {selectedProduct.stock}</p>
 
             <p>
-              Categoría: {selectedProduct.category?.name || "Sin categoría"}
+              {t('products.category', 'Categoría')}: {selectedProduct.category?.name || t('general.no_results', 'Sin categoría')}
             </p>
+
+            <button
+              onClick={() => setSelectedProduct(null)}
+              className="mt-4 w-full bg-green-400 text-white py-2 rounded hover:bg-green-500"
+            >
+              {t('general.cancel', 'Cerrar')}
+            </button>
 
           </div>
 

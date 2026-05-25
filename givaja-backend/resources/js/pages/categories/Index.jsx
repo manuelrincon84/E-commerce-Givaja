@@ -2,33 +2,36 @@ import { useState } from "react";
 import { useForm, Link } from "@inertiajs/react";
 import MainLayout from "../../layouts/MainLayout";
 import Table from "../../components/Table";
-import Modal from "../../components/Modal";
 import Alert from "../../components/Alert";
+import useLocalizedUrl from "../../hooks/useLocalizedUrl";
+import useTranslate from "../../hooks/useTranslate";
 
 export default function CategoriesIndex({ categories, success }) {
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const localizedUrl = useLocalizedUrl();
+  const t = useTranslate();
+  const [deleteId, setDeleteId] = useState(null);
   const { delete: deleteCategory } = useForm();
 
   const handleDelete = (id) => {
-    if (window.confirm("¿Estás seguro de que deseas eliminar esta categoría?")) {
-      deleteCategory(`/categories/${id}`, {
-        onSuccess: () => setSelectedCategory(null),
+    if (window.confirm(t("categories.confirm_delete"))) {
+      deleteCategory(localizedUrl(`/categories/${id}`), {
+        onSuccess: () => setDeleteId(null),
       });
     }
   };
 
-  const headers = ["ID", "Nombre", "Descripción", "Acciones"];
+  const headers = ["ID", t("general.name", "Nombre"), t("categories.description", "Descripción"), t("general.actions", "Acciones")];
 
   return (
     <MainLayout>
       <div className="card-section">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-3xl font-bold text-gray-800">Categorías</h2>
+          <h2 className="text-3xl font-bold text-gray-800">{t("categories.title")}</h2>
           <Link
-            href="/categories/create"
+            href={localizedUrl("/categories/create")}
             className="bg-green-400 hover:bg-green-500 text-white px-6 py-2 rounded font-medium transition"
           >
-            + Crear Categoría
+            {t("categories.create_new")}
           </Link>
         </div>
 
@@ -47,23 +50,23 @@ export default function CategoriesIndex({ categories, success }) {
               </td>
               <td className="px-6 py-4 text-sm">
                 <div className="flex gap-2">
-                  <button
-                    onClick={() => setSelectedCategory(category)}
+                  <Link
+                    href={localizedUrl(`/categories/${category.id}`)}
                     className="border-2 border-green-400 text-green-400 px-3 py-1 rounded hover:bg-green-50 transition text-xs font-medium"
                   >
-                    Ver
-                  </button>
+                    {t("general.view", "Ver")}
+                  </Link>
                   <Link
-                    href={`/categories/${category.id}/edit`}
+                    href={localizedUrl(`/categories/${category.id}/edit`)}
                     className="bg-green-400 text-white px-3 py-1 rounded hover:bg-green-500 transition text-xs font-medium"
                   >
-                    Editar
+                    {t("general.edit", "Editar")}
                   </Link>
                   <button
                     onClick={() => handleDelete(category.id)}
                     className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition text-xs font-medium"
                   >
-                    Eliminar
+                    {t("general.delete", "Eliminar")}
                   </button>
                 </div>
               </td>
@@ -71,41 +74,6 @@ export default function CategoriesIndex({ categories, success }) {
           )}
         </Table>
       </div>
-
-      {/* Modal de detalles */}
-      <Modal
-        isOpen={selectedCategory !== null}
-        onClose={() => setSelectedCategory(null)}
-        title="Detalles de la Categoría"
-      >
-        {selectedCategory && (
-          <div className="space-y-4">
-            <div>
-              <label className="font-semibold text-gray-700">ID:</label>
-              <p className="text-gray-900">{selectedCategory.id}</p>
-            </div>
-
-            <div>
-              <label className="font-semibold text-gray-700">Nombre:</label>
-              <p className="text-gray-900">{selectedCategory.name}</p>
-            </div>
-
-            <div>
-              <label className="font-semibold text-gray-700">Descripción:</label>
-              <p className="text-gray-900">{selectedCategory.description || "N/A"}</p>
-            </div>
-
-            {selectedCategory.created_at && (
-              <div>
-                <label className="font-semibold text-gray-700">Creada:</label>
-                <p className="text-gray-600 text-sm">
-                  {new Date(selectedCategory.created_at).toLocaleDateString('es-ES')}
-                </p>
-              </div>
-            )}
-          </div>
-        )}
-      </Modal>
     </MainLayout>
   );
 }

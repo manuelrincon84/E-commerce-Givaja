@@ -2,8 +2,12 @@ import MainLayout from "../../layouts/MainLayout";
 import { useForm } from "@inertiajs/react";
 import FormContainer from "../../components/FormContainer";
 import FormField from "../../components/FormField";
+import useLocalizedUrl from "../../hooks/useLocalizedUrl";
+import useTranslate from "../../hooks/useTranslate";
 
 export default function Create() {
+  const localizedUrl = useLocalizedUrl();
+  const t = useTranslate();
   const { data, setData, post, processing, errors } = useForm({
     first_name: "",
     last_name: "",
@@ -14,7 +18,7 @@ export default function Create() {
 
   const submit = (e) => {
     e.preventDefault();
-    post("/users");
+    post(localizedUrl("/users"));
   };
 
   const roles = [
@@ -26,15 +30,15 @@ export default function Create() {
   return (
     <MainLayout>
       <FormContainer
-        title="Crear Usuario"
+        title={t("users.create_title")}
         onSubmit={submit}
-        submitText="Guardar"
-        cancelHref="/users"
+        submitText={t("general.save")}
+        cancelHref={localizedUrl("/users")}
         isLoading={processing}
       >
         <div className="grid grid-cols-2 gap-4">
           <FormField
-            label="Nombre"
+            label={t("users.first_name")}
             name="first_name"
             type="text"
             value={data.first_name}
@@ -44,7 +48,7 @@ export default function Create() {
           />
 
           <FormField
-            label="Apellido"
+            label={t("users.last_name")}
             name="last_name"
             type="text"
             value={data.last_name}
@@ -55,7 +59,7 @@ export default function Create() {
         </div>
 
         <FormField
-          label="Email"
+          label={t("users.email")}
           name="email"
           type="email"
           value={data.email}
@@ -66,7 +70,7 @@ export default function Create() {
 
         <div className="grid grid-cols-2 gap-4">
           <FormField
-            label="Contraseña"
+            label={t("users.password")}
             name="password"
             type="password"
             value={data.password}
@@ -76,7 +80,12 @@ export default function Create() {
           />
 
           <FormField
-            label="Rol"
+            label={t("users.role")}
+            name="role"
+            type="select"
+            value={data.role}
+            onChange={(e) => setData("role", e.target.value)}
+            error={errors.role}
             name="role"
             type="select"
             value={data.role}

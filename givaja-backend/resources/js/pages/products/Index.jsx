@@ -2,18 +2,20 @@ import { useState } from "react";
 import { useForm, Link } from "@inertiajs/react";
 import MainLayout from "../../layouts/MainLayout";
 import Table from "../../components/Table";
-import Modal from "../../components/Modal";
 import Alert from "../../components/Alert";
 import SearchBox from "../../components/SearchBox";
+import useLocalizedUrl from "../../hooks/useLocalizedUrl";
+import useTranslate from "../../hooks/useTranslate";
 
 export default function ProductsIndex({ products, flash, search = "" }) {
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const localizedUrl = useLocalizedUrl();
+  const t = useTranslate();
   const [deleteId, setDeleteId] = useState(null);
   const { delete: deleteProduct } = useForm();
 
   const handleDelete = (id) => {
-    if (window.confirm("¿Estás seguro de que deseas eliminar este producto?")) {
-      deleteProduct(`/products/${id}`, {
+    if (window.confirm(t("products.confirm_delete"))) {
+      deleteProduct(localizedUrl(`/products/${id}`), {
         onSuccess: () => setDeleteId(null),
       });
     }
@@ -21,33 +23,33 @@ export default function ProductsIndex({ products, flash, search = "" }) {
 
   const headers = [
     "ID",
-    "Nombre",
-    "Descripción",
-    "Precio",
-    "Stock",
-    "Imagen",
-    "Categoría",
-    "Usuario",
-    "Acciones",
+    t("general.name", "Nombre"),
+    t("products.description", "Descripción"),
+    t("products.price", "Precio"),
+    t("products.stock", "Stock"),
+    t("general.image", "Imagen"),
+    t("products.category", "Categoría"),
+    t("products.user", "Usuario"),
+    t("general.actions", "Acciones"),
   ];
 
   return (
     <MainLayout>
       <div className="card-section">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-3xl font-bold text-gray-800">Productos</h2>
+          <h2 className="text-3xl font-bold text-gray-800">{t("products.title")}</h2>
           <Link
-            href="/products/create"
+            href={localizedUrl("/products/create")}
             className="bg-green-400 hover:bg-green-500 text-white px-6 py-2 rounded font-medium transition"
           >
-            + Crear Producto
+            {t("products.create_new")}
           </Link>
         </div>
 
         {/* Buscador */}
         <div className="mb-6">
           <SearchBox
-            placeholder="Buscar por nombre, descripción, precio o categoría..."
+            placeholder={t("products.search_placeholder")}
             route="/products"
             queryParam="search"
             initialValue={search}
@@ -62,8 +64,8 @@ export default function ProductsIndex({ products, flash, search = "" }) {
           <div className="text-center py-8">
             <p className="text-gray-500">
               {search
-                ? `No se encontraron productos para "${search}"`
-                : "No hay productos disponibles"}
+                ? `${t("products.no_products")} "${search}"`
+                : t("products.no_products")}
             </p>
           </div>
         ) : (
@@ -115,23 +117,23 @@ export default function ProductsIndex({ products, flash, search = "" }) {
               </td>
               <td className="px-6 py-4 text-sm">
                 <div className="flex gap-2">
-                  <button
-                    onClick={() => setSelectedProduct(product)}
+                  <Link
+                    href={localizedUrl(`/products/${product.id}`)}
                     className="border-2 border-green-400 text-green-400 px-3 py-1 rounded hover:bg-green-50 transition text-xs font-medium"
                   >
-                    Ver
-                  </button>
+                    {t("general.view", "Ver")}
+                  </Link>
                   <Link
-                    href={`/products/${product.id}/edit`}
+                    href={localizedUrl(`/products/${product.id}/edit`)}
                     className="bg-green-400 text-white px-3 py-1 rounded hover:bg-green-500 transition text-xs font-medium"
                   >
-                    Editar
+                    {t("general.edit", "Editar")}
                   </Link>
                   <button
                     onClick={() => handleDelete(product.id)}
                     className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition text-xs font-medium"
                   >
-                    Eliminar
+                    {t("general.delete", "Eliminar")}
                   </button>
                 </div>
               </td>
@@ -157,70 +159,6 @@ export default function ProductsIndex({ products, flash, search = "" }) {
        ))}
     </div>
 
-      {/* Modal de detalles */}
-      <Modal
-        isOpen={selectedProduct !== null}
-        onClose={() => setSelectedProduct(null)}
-        title="Detalles del Producto"
-      >
-        {selectedProduct && (
-          <div className="space-y-4">
-            {selectedProduct.image_url && (
-              <img
-                src={selectedProduct.image_url}
-                alt={selectedProduct.name}
-                className="w-full h-64 object-cover rounded-lg"
-              />
-            )}
-
-            <div>
-              <label className="font-semibold text-gray-700">ID:</label>
-              <p className="text-gray-900">{selectedProduct.id}</p>
-            </div>
-
-            <div>
-              <label className="font-semibold text-gray-700">Nombre:</label>
-              <p className="text-gray-900">{selectedProduct.name}</p>
-            </div>
-
-            <div>
-              <label className="font-semibold text-gray-700">Descripción:</label>
-              <p className="text-gray-900">{selectedProduct.description || "N/A"}</p>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="font-semibold text-gray-700">Precio:</label>
-                <p className="text-gray-900 font-semibold text-green-600">
-                  ${Number(selectedProduct.unit_price).toLocaleString("es-ES", {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })}
-                </p>
-              </div>
-              <div>
-                <label className="font-semibold text-gray-700">Stock:</label>
-                <p className={`font-semibold ${selectedProduct.stock > 0 ? "text-green-600" : "text-red-600"}`}>
-                  {selectedProduct.stock}
-                </p>
-              </div>
-            </div>
-
-            <div>
-              <label className="font-semibold text-gray-700">Categoría:</label>
-              <p className="text-gray-900">{selectedProduct.category?.name || "Sin categoría"}</p>
-            </div>
-
-            <div>
-              <label className="font-semibold text-gray-700">Actualizado por:</label>
-              <p className="text-gray-900">
-                {selectedProduct.updated_by_user?.first_name || "Sin usuario"}{" "}
-                {selectedProduct.updated_by_user?.last_name || ""}
-              </p>
-            </div>
-          </div>
-        )}
-      </Modal>
     </MainLayout>
   );
 }

@@ -11,7 +11,7 @@ class CategoryController extends Controller
     /**
      * Display a listing of categories
      */
-    public function index(Request $request)
+    public function index(Request $request, string $locale)
     {
         $search = $request->input('search', '');
 
@@ -28,7 +28,7 @@ class CategoryController extends Controller
     /**
      * Show the form for creating a new category
      */
-    public function create()
+    public function create(string $locale)
     {
         return Inertia::render('categories/Create');
     }
@@ -36,7 +36,7 @@ class CategoryController extends Controller
     /**
      * Store a newly created category in storage
      */
-    public function store(Request $request)
+    public function store(Request $request, string $locale)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255|unique:categories',
@@ -45,13 +45,13 @@ class CategoryController extends Controller
 
         Category::create($validated);
 
-        return redirect()->route('categories.index')->with('success', 'Categoría creada exitosamente.');
+        return redirect()->route('categories.index', ['locale' => $locale])->with('success', 'Categoría creada exitosamente.');
     }
 
     /**
      * Display the specified category
      */
-    public function show(Category $category)
+    public function show(string $locale, Category $category)
     {
         return Inertia::render('categories/Show', ['category' => $category]);
     }
@@ -59,7 +59,7 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified category
      */
-    public function edit(Category $category)
+    public function edit(string $locale, Category $category)
     {
         return Inertia::render('categories/Edit', ['category' => $category]);
     }
@@ -67,7 +67,7 @@ class CategoryController extends Controller
     /**
      * Update the specified category in storage
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, string $locale, Category $category)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255|unique:categories,name,' . $category->id,
@@ -76,15 +76,15 @@ class CategoryController extends Controller
 
         $category->update($validated);
 
-        return redirect()->route('categories.index')->with('success', 'Categoría actualizada exitosamente.');
+        return redirect()->route('categories.index', ['locale' => $locale])->with('success', 'Categoría actualizada exitosamente.');
     }
 
     /**
      * Remove the specified category from storage
      */
-    public function destroy(Category $category)
+    public function destroy(string $locale, Category $category)
     {
         $category->delete();
-        return redirect()->route('categories.index')->with('success', 'Categoría eliminada exitosamente.');
+        return redirect()->route('categories.index', ['locale' => $locale])->with('success', 'Categoría eliminada exitosamente.');
     }
 }

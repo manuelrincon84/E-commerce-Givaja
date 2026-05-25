@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'title' => 'Usuarios',
+    'users' => 'Usuarios',
+    'user_details' => 'Detalles del Usuario',
+    'create_user' => 'Crear Usuario',
+    'edit_user' => 'Editar Usuario',
+    'first_name' => 'Nombre',
+    'last_name' => 'Apellido',
+    'email' => 'Email',
+    'password' => 'Contraseña',
+    'role' => 'Rol',
+    'created' => 'Creado',
+    'updated' => 'Actualizado',
+    'back' => 'Volver',
+    'confirm_delete' => '¿Estás seguro de que deseas eliminar este usuario?',
+    'create_new' => 'Crear Usuario',
+    'no_users' => 'No se encontraron usuarios',
+    'view' => 'Ver',
+    'edit' => 'Editar',
+    'delete' => 'Eliminar',
+    'admin' => 'Administrador',
+    'seller' => 'Vendedor',
+    'customer' => 'Cliente',
+    'password_hint' => 'Dejar en blanco para mantener contraseña actual',
+];

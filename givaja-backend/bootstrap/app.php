@@ -13,11 +13,13 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
 
     $middleware->web(append: [
+        \App\Http\Middleware\SetLocale::class,
         \App\Http\Middleware\HandleInertiaRequests::class,
     ]);
 
     $middleware->alias([
         'debugbar' => \Fruitcake\LaravelDebugbar\Middleware\DebugbarEnabled::class,
+        'set.locale' => \App\Http\Middleware\SetLocale::class,
     ]);
 
 })

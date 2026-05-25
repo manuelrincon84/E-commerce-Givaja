@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use stdClass;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of users
      */
-    public function index(Request $request)
+    public function index(Request $request, string $locale)
     {
         $search = $request->input('search', '');
 
@@ -28,7 +29,7 @@ class UserController extends Controller
     /**
      * Show the form for creating a new user
      */
-    public function create()
+    public function create(string $locale)
     {
         return Inertia::render('users/Create');
     }
@@ -36,7 +37,7 @@ class UserController extends Controller
     /**
      * Store a newly created user in storage
      */
-    public function store(Request $request)
+    public function store(Request $request, string $locale)
     {
         $validated = $request->validate([
             'first_name' => 'required|string|max:255',
@@ -49,13 +50,13 @@ class UserController extends Controller
         $validated['password'] = bcrypt($validated['password']);
         User::create($validated);
 
-        return redirect()->route('users.index')->with('success', 'Usuario creado exitosamente.');
+        return redirect()->route('users.index', ['locale' => $locale])->with('success', 'Usuario creado exitosamente.');
     }
 
     /**
      * Display the specified user
      */
-    public function show(User $user)
+    public function show(string $locale, User $user)
     {
         return Inertia::render('users/Show', ['user' => $user]);
     }
@@ -63,7 +64,7 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified user
      */
-    public function edit(User $user)
+    public function edit(string $locale, User $user)
     {
         return Inertia::render('users/Edit', ['user' => $user]);
     }
@@ -71,7 +72,7 @@ class UserController extends Controller
     /**
      * Update the specified user in storage
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, string $locale, User $user)
     {
         $validated = $request->validate([
             'first_name' => 'required|string|max:255',
@@ -86,15 +87,15 @@ class UserController extends Controller
 
         $user->update($validated);
 
-        return redirect()->route('users.index')->with('success', 'Usuario actualizado exitosamente.');
+        return redirect()->route('users.index', ['locale' => $locale])->with('success', 'Usuario actualizado exitosamente.');
     }
 
     /**
      * Remove the specified user from storage
      */
-    public function destroy(User $user)
+    public function destroy(string $locale, User $user)
     {
         $user->delete();
-        return redirect()->route('users.index')->with('success', 'Usuario eliminado exitosamente.');
+        return redirect()->route('users.index', ['locale' => $locale])->with('success', 'Usuario eliminado exitosamente.');
     }
 }

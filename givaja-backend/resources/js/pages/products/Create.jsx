@@ -2,8 +2,12 @@ import MainLayout from "../../layouts/MainLayout";
 import { useForm } from "@inertiajs/react";
 import FormContainer from "../../components/FormContainer";
 import FormField from "../../components/FormField";
+import useLocalizedUrl from "../../hooks/useLocalizedUrl";
+import useTranslate from "../../hooks/useTranslate";
 
 export default function Create({ categories, users }) {
+  const localizedUrl = useLocalizedUrl();
+  const t = useTranslate();
   const { data, setData, post, processing, errors } = useForm({
     category_id: "",
     name: "",
@@ -16,21 +20,21 @@ export default function Create({ categories, users }) {
 
   const submit = (e) => {
     e.preventDefault();
-    post("/products");
+    post(localizedUrl("/products"));
   };
 
   return (
     <MainLayout>
       <FormContainer
-        title="Crear Producto"
+        title={t("products.create_product", "Crear Producto")}
         onSubmit={submit}
-        submitText="Guardar"
-        cancelHref="/products"
+        submitText={t("general.save", "Guardar")}
+        cancelHref={localizedUrl("/products")}
         isLoading={processing}
       >
         <div className="grid grid-cols-2 gap-4">
           <FormField
-            label="Categoría"
+            label={t("products.category", "Categoría")}
             name="category_id"
             type="select"
             value={data.category_id}
@@ -41,7 +45,7 @@ export default function Create({ categories, users }) {
           />
 
           <FormField
-            label="Nombre"
+            label={t("general.name", "Nombre")}
             name="name"
             type="text"
             value={data.name}
@@ -52,7 +56,7 @@ export default function Create({ categories, users }) {
         </div>
 
         <FormField
-          label="Descripción"
+          label={t("products.description", "Descripción")}
           name="description"
           type="textarea"
           value={data.description}
@@ -62,7 +66,7 @@ export default function Create({ categories, users }) {
 
         <div className="grid grid-cols-3 gap-4">
           <FormField
-            label="Precio"
+            label={t("products.price", "Precio")}
             name="unit_price"
             type="number"
             value={data.unit_price}
@@ -72,7 +76,7 @@ export default function Create({ categories, users }) {
           />
 
           <FormField
-            label="Stock"
+            label={t("products.stock", "Stock")}
             name="stock"
             type="number"
             value={data.stock}
@@ -82,7 +86,7 @@ export default function Create({ categories, users }) {
           />
 
           <FormField
-            label="Usuario"
+            label={t("products.user", "Usuario")}
             name="updated_by"
             type="select"
             value={data.updated_by}
@@ -94,7 +98,7 @@ export default function Create({ categories, users }) {
         </div>
 
         <FormField
-          label="URL Imagen"
+          label={t("products.image_url", "URL Imagen")}
           name="image_url"
           type="url"
           value={data.image_url}

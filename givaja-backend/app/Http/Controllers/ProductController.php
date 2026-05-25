@@ -14,7 +14,7 @@ class ProductController extends Controller
     /**
      * Display a listing of products with optional search
      */
-    public function index(Request $request)
+    public function index(Request $request, string $locale)
     {
         $search = $request->query('search', '');
 
@@ -23,7 +23,7 @@ class ProductController extends Controller
         // Aplicar búsqueda si existe
         if ($search) {
             $query->search($search, ['name', 'description']);
-            
+
             // También buscar por categoría
             $query->orWhereHas('category', function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%");
@@ -41,7 +41,7 @@ class ProductController extends Controller
     /**
      * Show the form for creating a new product
      */
-    public function create()
+    public function create(string $locale)
     {
         return Inertia::render('products/Create', [
             'categories' => Category::all(['id', 'name']),
@@ -52,7 +52,7 @@ class ProductController extends Controller
     /**
      * Store a newly created product in storage
      */
-    public function store(Request $request)
+    public function store(Request $request, string $locale)
     {
         $validated = $request->validate([
             'category_id' => 'required|exists:categories,id',
@@ -66,14 +66,14 @@ class ProductController extends Controller
 
         Product::create($validated);
 
-        return redirect()->route('products.index')
+        return redirect()->route('products.index', ['locale' => $locale])
             ->with('success', 'Producto creado exitosamente.');
     }
 
     /**
      * Display the specified product
      */
-    public function show(Product $product)
+    public function show(string $locale, Product $product)
     {
         return Inertia::render('products/Show', [
             'product' => $product->load('category', 'updatedByUser'),
@@ -83,7 +83,7 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified product
      */
-    public function edit(Product $product)
+    public function edit(string $locale, Product $product)
     {
         return Inertia::render('products/Edit', [
             'product'    => $product,
@@ -95,7 +95,7 @@ class ProductController extends Controller
     /**
      * Update the specified product in storage
      */
-    public function update(Request $request, Product $product)
+    public function update(Request $request, string $locale, Product $product)
     {
         $validated = $request->validate([
             'category_id' => 'required|exists:categories,id',
@@ -109,18 +109,18 @@ class ProductController extends Controller
 
         $product->update($validated);
 
-        return redirect()->route('products.index')
+        return redirect()->route('products.index', ['locale' => $locale])
             ->with('success', 'Producto actualizado exitosamente.');
     }
 
     /**
      * Remove the specified product from storage
      */
-    public function destroy(Product $product)
+    public function destroy(string $locale, Product $product)
     {
         $product->delete();
 
-        return redirect()->route('products.index')
+        return redirect()->route('products.index', ['locale' => $locale])
             ->with('success', 'Producto eliminado exitosamente.');
     }
 }

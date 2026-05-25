@@ -11,6 +11,7 @@ use App\Http\Controllers\CartItemController;
 use App\Http\Controllers\CustomizationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\LocaleController;
 use Inertia\Inertia;
 
 /*
@@ -24,46 +25,70 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', [HomeController::class, 'index']) ->name('home');
-Route::get('/home', [HomeController::class, 'index']) ->name('home')
-;
+// Ruta raíz que redirige al idioma por defecto
+Route::get('/', function () {
+    $locale = session('locale') ?? app()->getLocale();
+    return redirect("/{$locale}");
+})->name('root');
 
 /*
 |--------------------------------------------------------------------------
-| Static Pages (Inertia)
+| Locale Routes
 |--------------------------------------------------------------------------
+|
+| Cambio de idioma de la aplicación
+|
 */
 
-Route::inertia('/dashboard', 'Dashboard')
-    ->name('dashboard');
+Route::post('/locale/{locale}', [LocaleController::class, 'change'])->name('locale.change');
+Route::get('/api/locales', [LocaleController::class, 'supported'])->name('locale.supported');
 
 /*
 |--------------------------------------------------------------------------
-| Resource Routes
+| Localized Routes
 |--------------------------------------------------------------------------
 |
-| CRUD completos manejados mediante controllers.
-| Los controllers retornan Inertia::render(...)
+| Todas las rutas agrupadas bajo prefijo de idioma {locale}
 |
 */
 
-Route::resource('products', ProductController::class);
+Route::where(['locale' => 'en|es'])
+    ->prefix('{locale}')
+    ->middleware(['set.locale'])
+    ->group(function () {
 
-Route::resource('categories', CategoryController::class);
+        // Home page
+        Route::get('/', [HomeController::class, 'index'])->name('home');
+        Route::get('/home', [HomeController::class, 'index'])->name('home.alt');
 
-Route::resource('users', UserController::class);
+        /*
+        |--------------------------------------------------------------------------
+        | Static Pages (Inertia)
+        |--------------------------------------------------------------------------
+        */
+        Route::inertia('/dashboard', 'Dashboard')
+            ->name('dashboard');
 
-Route::resource('orders', OrderController::class);
+        /*
+        |--------------------------------------------------------------------------
+        | Resource Routes
+        |--------------------------------------------------------------------------
+        |
+        | CRUD completos manejados mediante controllers.
+        | Los controllers retornan Inertia::render(...)
+        |
+        */
+        Route::resource('products', ProductController::class);
+        Route::resource('categories', CategoryController::class);
+        Route::resource('users', UserController::class);
+        Route::resource('orders', OrderController::class);
+        Route::resource('order-details', OrderDetailController::class);
+        Route::resource('carts', CartController::class);
+        Route::resource('cart-items', CartItemController::class);
+        Route::resource('customizations', CustomizationController::class);
+        Route::resource('payments', PaymentController::class);
 
-Route::resource('order-details', OrderDetailController::class);
-
-Route::resource('carts', CartController::class);
-
-Route::resource('cart-items', CartItemController::class);
-
-Route::resource('customizations', CustomizationController::class);
-
-Route::resource('payments', PaymentController::class);
+    });
 
 /*
 |--------------------------------------------------------------------------
@@ -75,5 +100,7 @@ Route::resource('payments', PaymentController::class);
 */
 
 Route::fallback(function () {
-    return redirect()->route('products.index');
+    $locale = app()->getLocale();
+    return redirect("/{$locale}/products");
 });
+

@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'title' => 'Users',
+    'users' => 'Users',
+    'user_details' => 'User Details',
+    'create_user' => 'Create User',
+    'edit_user' => 'Edit User',
+    'first_name' => 'First Name',
+    'last_name' => 'Last Name',
+    'email' => 'Email',
+    'password' => 'Password',
+    'role' => 'Role',
+    'created' => 'Created',
+    'updated' => 'Updated',
+    'back' => 'Back',
+    'confirm_delete' => 'Are you sure you want to delete this user?',
+    'create_new' => 'Create User',
+    'no_users' => 'No users found',
+    'view' => 'View',
+    'edit' => 'Edit',
+    'delete' => 'Delete',
+    'admin' => 'Admin',
+    'seller' => 'Seller',
+    'customer' => 'Customer',
+    'password_hint' => 'Leave blank to keep current password',
+];

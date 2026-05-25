@@ -2,8 +2,12 @@ import MainLayout from "../../layouts/MainLayout";
 import { useForm } from "@inertiajs/react";
 import FormContainer from "../../components/FormContainer";
 import FormField from "../../components/FormField";
+import useLocalizedUrl from "../../hooks/useLocalizedUrl";
+import useTranslate from "../../hooks/useTranslate";
 
 export default function Edit({ category }) {
+  const localizedUrl = useLocalizedUrl();
+  const t = useTranslate();
   const { data, setData, put, processing, errors } = useForm({
     name: category.name || "",
     description: category.description || "",
@@ -11,20 +15,20 @@ export default function Edit({ category }) {
 
   const submit = (e) => {
     e.preventDefault();
-    put(`/categories/${category.id}`);
+    put(localizedUrl(`/categories/${category.id}`));
   };
 
   return (
     <MainLayout>
       <FormContainer
-        title="Editar Categoría"
+        title={t("categories.edit_category", "Editar Categoría")}
         onSubmit={submit}
-        submitText="Actualizar"
-        cancelHref="/categories"
+        submitText={t("general.update", "Actualizar")}
+        cancelHref={localizedUrl("/categories")}
         isLoading={processing}
       >
         <FormField
-          label="Nombre"
+          label={t("general.name", "Nombre")}
           name="name"
           type="text"
           value={data.name}
@@ -34,7 +38,7 @@ export default function Edit({ category }) {
         />
 
         <FormField
-          label="Descripción"
+          label={t("categories.description", "Descripción")}
           name="description"
           type="textarea"
           value={data.description}

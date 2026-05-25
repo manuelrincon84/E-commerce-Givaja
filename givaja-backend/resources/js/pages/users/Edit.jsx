@@ -2,8 +2,12 @@ import MainLayout from "../../layouts/MainLayout";
 import { useForm } from "@inertiajs/react";
 import FormContainer from "../../components/FormContainer";
 import FormField from "../../components/FormField";
+import useLocalizedUrl from "../../hooks/useLocalizedUrl";
+import useTranslate from "../../hooks/useTranslate";
 
 export default function Edit({ user }) {
+  const localizedUrl = useLocalizedUrl();
+    const t = useTranslate();
   const { data, setData, put, processing, errors } = useForm({
     first_name: user.first_name || "",
     last_name: user.last_name || "",
@@ -13,7 +17,7 @@ export default function Edit({ user }) {
 
   const submit = (e) => {
     e.preventDefault();
-    put(`/users/${user.id}`);
+    put(localizedUrl(`/users/${user.id}`));
   };
 
   const roles = [
@@ -25,15 +29,15 @@ export default function Edit({ user }) {
   return (
     <MainLayout>
       <FormContainer
-        title="Editar Usuario"
+        title={t("users.edit_title")}
         onSubmit={submit}
-        submitText="Actualizar"
-        cancelHref="/users"
+        submitText={t("general.update")}
+        cancelHref={localizedUrl("/users")}
         isLoading={processing}
       >
         <div className="grid grid-cols-2 gap-4">
           <FormField
-            label="Nombre"
+            label={t("users.first_name")}
             name="first_name"
             type="text"
             value={data.first_name}
@@ -43,7 +47,7 @@ export default function Edit({ user }) {
           />
 
           <FormField
-            label="Apellido"
+            label={t("users.last_name")}
             name="last_name"
             type="text"
             value={data.last_name}
@@ -54,7 +58,7 @@ export default function Edit({ user }) {
         </div>
 
         <FormField
-          label="Email"
+          label={t("users.email")}
           name="email"
           type="email"
           value={data.email}
@@ -64,7 +68,7 @@ export default function Edit({ user }) {
         />
 
         <FormField
-          label="Rol"
+          label={t("users.role")}
           name="role"
           type="select"
           value={data.role}
