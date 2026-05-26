@@ -1,53 +1,201 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Givaja E-Commerce
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Plataforma de e-commerce moderna y escalable construida con **Laravel 13** y **React 19** para una experiencia de usuario excepcional.
 
-## About Laravel
+## 📋 Descripción
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Givaja es una aplicación de e-commerce completa que permite:
+- 🛍️ Navegación y compra de productos
+- 🛒 Carrito de compras inteligente
+- 💳 Procesamiento de pagos
+- 👥 Gestión de usuarios y autenticación
+- 📦 Gestión de órdenes y entregas
+- 🎨 Personalizaciones de productos
+- 🌍 Soporte multiidioma (i18n)
+- 🎯 Categorización avanzada de productos
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🚀 Stack Tecnológico
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Backend
+- **Laravel 13** - Framework PHP de última generación
+- **Inertia.js** - Puente reactivo entre Laravel y React
+- **PHP 8.3+** - Lenguaje de programación
+- **MySQL** - Base de datos
 
-## Learning Laravel
+### Frontend
+- **React 19** - Librería de UI
+- **Tailwind CSS** - Framework de estilos
+- **Vite** - Build tool moderno
+- **Axios** - Cliente HTTP
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Herramientas de Desarrollo
+- **Laravel Debugbar** - Herramienta de depuración
+- **PHPUnit** - Testing para backend
+- **Laravel Pint** - Code formatter
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 📦 Requisitos Previos
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+- PHP 8.3 o superior
+- Composer
+- Node.js 18+ y npm/yarn
+- MySQL 8.0+
+- Git
 
-## Agentic Development
+## 🔧 Instalación
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
-
+### 1. Clonar el repositorio
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+git clone https://github.com/manuelrincon84/E-commerce-Givaja.git
+cd givaja-backend
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+### 2. Instalar dependencias de PHP
+```bash
+composer install
+```
 
-## Contributing
+### 3. Instalar dependencias de Node.js
+```bash
+npm install
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 4. Configurar ambiente
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-## Code of Conduct
+### 5. Configurar base de datos
+Edita `.env` con tus credenciales de base de datos, luego ejecuta:
+```bash
+php artisan migrate
+php artisan seed
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 🏃 Ejecutar en Desarrollo
+
+### Terminal 1 - Servidor Laravel
+```bash
+php artisan serve
+```
+
+### Terminal 2 - Servidor de desarrollo Vite
+```bash
+npm run dev
+```
+
+La aplicación estará disponible en `http://localhost:8000`
+
+## 🔨 Compilar para Producción
+```bash
+npm run build
+```
+
+## 📁 Estructura del Proyecto
+
+```
+givaja-backend/
+├── app/
+│   ├── Http/
+│   │   ├── Controllers/     # Controladores de la API
+│   │   └── Middleware/      # Middleware personalizado
+│   ├── Models/              # Modelos de Eloquent
+│   │   ├── User.php
+│   │   ├── Product.php
+│   │   ├── Category.php
+│   │   ├── Order.php
+│   │   ├── Cart.php
+│   │   ├── Payment.php
+│   │   └── Customization.php
+│   └── Traits/              # Traits reutilizables
+├── database/
+│   ├── migrations/          # Migraciones de BD
+│   ├── seeders/             # Seeders para datos iniciales
+│   └── factories/           # Factories para testing
+├── resources/
+│   ├── js/                  # Componentes React
+│   └── views/               # Vistas Inertia
+├── routes/
+│   └── web.php              # Rutas web
+├── config/                  # Configuración de la app
+└── tests/                   # Tests automatizados
+```
+
+## 🗂️ Modelos Principales
+
+| Modelo | Descripción |
+|--------|-------------|
+| **User** | Usuarios del sistema (clientes) |
+| **Product** | Productos disponibles en la tienda |
+| **Category** | Categorías de productos |
+| **Cart** | Carrito de compras del usuario |
+| **CartItem** | Items dentro del carrito |
+| **Order** | Pedidos realizados |
+| **OrderDetail** | Detalles de cada pedido |
+| **Payment** | Información de pagos |
+| **Customization** | Personalizaciones de productos |
+
+## 🌐 Funcionalidades Principales
+
+- ✅ Autenticación de usuarios
+- ✅ Catálogo de productos con búsqueda
+- ✅ Carrito de compras persistente
+- ✅ Sistema de órdenes
+- ✅ Procesamiento de pagos
+- ✅ Personalización de productos
+- ✅ Sistema multiidioma
+- ✅ Gestión de categorías
+- ✅ Soporte de imágenes de productos
+
+## 🔌 API Endpoints Principales
+
+- `GET /api/products` - Listar productos
+- `GET /api/categories` - Listar categorías
+- `POST /api/cart` - Agregar al carrito
+- `GET /api/orders` - Listar órdenes del usuario
+- `POST /api/payments` - Procesar pago
+- `PUT /api/profile` - Actualizar perfil de usuario
+
+## 🧪 Testing
+
+```bash
+# Ejecutar tests
+php artisan test
+
+# Con cobertura de código
+php artisan test --coverage
+```
+
+## 📝 Formato de Código
+
+```bash
+# Verificar formato
+./vendor/bin/pint --test
+
+# Corregir formato automáticamente
+./vendor/bin/pint
+```
+
+## 🤝 Contribución
+
+Las contribuciones son bienvenidas. Por favor:
+1. Fork el proyecto
+2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
+3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abre un Pull Request
+
+## 📄 Licencia
+
+Este proyecto está bajo licencia MIT. Consulta el archivo `LICENSE` para más detalles.
+
+## 📞 Soporte
+
+Para preguntas o problemas, por favor abre un issue en el repositorio.
+
+---
+
+**Última actualización:** Mayo 2026
 
 ## Security Vulnerabilities
 
