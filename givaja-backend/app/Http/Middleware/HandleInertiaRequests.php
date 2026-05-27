@@ -40,6 +40,16 @@ class HandleInertiaRequests extends Middleware
             'locale' => app()->getLocale(),
             'supportedLocales' => ['en', 'es'],
             'translations' => $this->getTranslations(),
+            'auth' => [
+            'user' => $request->user() ? [
+                'id'         => $request->user()->id,
+                'first_name' => $request->user()->first_name,
+                'last_name'  => $request->user()->last_name,
+                'email'      => $request->user()->email,
+                'role'       => $request->user()->role,
+                'avatar'     => $request->user()->avatar ?? null,
+            ] : null,
+        ],
         ];
     }
 
