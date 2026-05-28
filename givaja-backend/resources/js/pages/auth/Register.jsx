@@ -20,11 +20,11 @@ export default function Register() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-            <div className="bg-white rounded-lg shadow-md w-full max-w-3xl flex overflow-hidden" style={{ minHeight: '400px' }}>
+        <div className="min-h-screen flex items-center justify-center p-4" style={{ backgroundColor: 'var(--gray-100)' }}>
+            <div className="shadow-[0px_0px_15px_rgba(80,167,177,100)] rounded-lg w-full max-w-3xl flex overflow-hidden" style={{ minHeight: '400px' }}>
 
                 {/* LEFT — Logo */}
-                <div className="w-1/2 flex items-center justify-center p-10 border-r border-gray-100">
+                <div style={{ backgroundColor: 'var(--gray-100)' }} className="w-1/2 flex items-center justify-center p-10 border-r" style={{ borderColor: 'var(--gray-100)' }}>
                     <img
                         src="/images/givaja.jpeg"
                         alt="Givaja"
@@ -33,11 +33,11 @@ export default function Register() {
                 </div>
 
                 {/* RIGHT — Form */}
-                <div className="w-1/2 p-8 flex flex-col justify-center">
-                    <h2 className="text-xl font-semibold mb-1" style={{ color: '#020407' }}>
+                <div className="w-1/2 bg-white p-8 flex flex-col justify-center">
+                    <h2 style={{ color: 'var(--text-dark)' }} className="text-xl font-semibold mb-1">
                         {t('auth.register_title', 'Crear cuenta')}
                     </h2>
-                    <p className="text-xs text-gray-400 mb-5">
+                    <p style={{ color: 'var(--gray-500)' }} className="text-xs mb-5">
                         {t('auth.register_subtitle', 'Completa tus datos para registrarte')}
                     </p>
 
@@ -53,8 +53,12 @@ export default function Register() {
                                     className={`w-full border rounded px-3 py-2 text-sm outline-none transition focus:ring-1 ${
                                         errors.first_name
                                             ? 'border-red-400 focus:ring-red-300'
-                                            : 'border-gray-300 focus:ring-[#71a6b1]'
+                                            : 'focus:ring-1'
                                     }`}
+                                    style={{
+                                        borderColor: errors.first_name ? '#f87171' : 'var(--gray-300)',
+                                        '--tw-ring-color': errors.first_name ? '#fca5a5' : 'var(--primary-500)'
+                                    }}
                                 />
                                 {errors.first_name && (
                                     <p className="text-red-500 text-xs mt-1">{errors.first_name}</p>
@@ -69,8 +73,12 @@ export default function Register() {
                                     className={`w-full border rounded px-3 py-2 text-sm outline-none transition focus:ring-1 ${
                                         errors.last_name
                                             ? 'border-red-400 focus:ring-red-300'
-                                            : 'border-gray-300 focus:ring-[#71a6b1]'
+                                            : 'focus:ring-1'
                                     }`}
+                                    style={{
+                                        borderColor: errors.last_name ? '#f87171' : 'var(--gray-300)',
+                                        '--tw-ring-color': errors.last_name ? '#fca5a5' : 'var(--primary-500)'
+                                    }}
                                 />
                                 {errors.last_name && (
                                     <p className="text-red-500 text-xs mt-1">{errors.last_name}</p>
@@ -88,8 +96,12 @@ export default function Register() {
                                 className={`w-full border rounded px-3 py-2 text-sm outline-none transition focus:ring-1 ${
                                     errors.email
                                         ? 'border-red-400 focus:ring-red-300'
-                                        : 'border-gray-300 focus:ring-[#71a6b1]'
+                                        : 'focus:ring-1'
                                 }`}
+                                style={{
+                                    borderColor: errors.email ? '#f87171' : 'var(--gray-300)',
+                                    '--tw-ring-color': errors.email ? '#fca5a5' : 'var(--primary-500)'
+                                }}
                             />
                             {errors.email && (
                                 <p className="text-red-500 text-xs mt-1">{errors.email}</p>
@@ -106,8 +118,12 @@ export default function Register() {
                                 className={`w-full border rounded px-3 py-2 text-sm outline-none transition focus:ring-1 ${
                                     errors.password
                                         ? 'border-red-400 focus:ring-red-300'
-                                        : 'border-gray-300 focus:ring-[#71a6b1]'
+                                        : 'focus:ring-1'
                                 }`}
+                                style={{
+                                    borderColor: errors.password ? '#f87171' : 'var(--gray-300)',
+                                    '--tw-ring-color': errors.password ? '#fca5a5' : 'var(--primary-500)'
+                                }}
                             />
                             {errors.password && (
                                 <p className="text-red-500 text-xs mt-1">{errors.password}</p>
@@ -124,8 +140,12 @@ export default function Register() {
                                 className={`w-full border rounded px-3 py-2 text-sm outline-none transition focus:ring-1 ${
                                     errors.password_confirmation
                                         ? 'border-red-400 focus:ring-red-300'
-                                        : 'border-gray-300 focus:ring-[#71a6b1]'
+                                        : 'focus:ring-1'
                                 }`}
+                                style={{
+                                    borderColor: errors.password_confirmation ? '#f87171' : 'var(--gray-300)',
+                                    '--tw-ring-color': errors.password_confirmation ? '#fca5a5' : 'var(--primary-500)'
+                                }}
                             />
                             {errors.password_confirmation && (
                                 <p className="text-red-500 text-xs mt-1">{errors.password_confirmation}</p>
@@ -137,7 +157,7 @@ export default function Register() {
                             type="submit"
                             disabled={processing}
                             className="w-full py-2 rounded text-white text-sm font-medium transition hover:opacity-90 disabled:opacity-60"
-                            style={{ backgroundColor: '#71a6b1' }}
+                            style={{ backgroundColor: 'var(--primary-500)' }}
                         >
                             {processing
                                 ? t('auth.registering', 'Registrando...')
@@ -146,12 +166,12 @@ export default function Register() {
                     </form>
 
                     {/* Login link */}
-                    <p className="text-xs text-center text-gray-400 mt-4">
+                    <p style={{ color: 'var(--gray-500)' }} className="text-xs text-center mt-4">
                         {t('auth.have_account', '¿Ya tienes cuenta?')}{' '}
                         <Link
                             href={localizedUrl('/login')}
                             className="font-medium hover:underline"
-                            style={{ color: '#71a6b1' }}
+                            style={{ color: 'var(--primary-500)' }}
                         >
                             {t('auth.login_link', 'Inicia sesión')}
                         </Link>

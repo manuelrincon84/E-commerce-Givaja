@@ -33,10 +33,10 @@ export default function MainLayout({ children }) {
     const isSeller = user?.role === 'seller';
 
     return (
-        <div className="min-h-screen bg-gray-100">
+        <div style={{ backgroundColor: 'var(--gray-100)' }} className="min-h-screen">
 
             {/* NAVBAR */}
-            <nav className="bg-[#50A7B1] p-4 text-white flex justify-between items-center gap-6">
+            <nav style={{ backgroundColor: 'var(--primary-500)' }} className="p-4 text-white flex justify-between items-center gap-6">
 
                 <Link href={localizedUrl('/')} className="hover:opacity-80 flex items-center gap-2">
                     <img
@@ -89,7 +89,7 @@ export default function MainLayout({ children }) {
                                 />
                             ) : (
                                 <span className="w-8 h-8 rounded-full bg-white flex items-center justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-[#71a6b1]" viewBox="0 0 24 24" fill="currentColor">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" style={{ color: 'var(--primary-500)' }} viewBox="0 0 24 24" fill="currentColor">
                                         <path fillRule="evenodd" d="M12 12a5 5 0 100-10 5 5 0 000 10zm-7 9a7 7 0 1114 0H5z" clipRule="evenodd" />
                                     </svg>
                                 </span>
@@ -101,31 +101,40 @@ export default function MainLayout({ children }) {
 
                         {/* Dropdown */}
                         {dropdownOpen && (
-                            <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-1 z-50 text-gray-700 text-sm">
+                            <div className="absolute right-0 mt-2 w-48 rounded-lg shadow-lg py-1 z-50 text-sm" style={{ backgroundColor: 'var(--gray-50)', color: 'var(--text-dark)' }}>
                                 {user ? (
                                     <>
-                                        <div className="px-4 py-2 border-b border-gray-100">
-                                            <p className="font-semibold text-[#020407]">{user.first_name} {user.last_name}</p>
-                                            <p className="text-xs text-gray-400">{user.email}</p>
+                                        <div className="px-4 py-2 border-b" style={{ borderColor: 'var(--gray-200)' }}>
+                                            <p style={{ color: 'var(--text-dark)' }} className="font-semibold">{user.first_name} {user.last_name}</p>
+                                            <p style={{ color: 'var(--gray-500)' }} className="text-xs">{user.email}</p>
                                         </div>
                                         <Link
                                             href={localizedUrl(`/users/${user.id}`)}
-                                            className="block px-4 py-2 hover:bg-gray-50 transition"
+                                            className="block px-4 py-2 transition"
+                                            style={{ backgroundColor: 'var(--gray-100)', color: 'var(--text-dark)' }}
+                                            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--gray-200)' }
+                                            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--gray-100)' }
                                             onClick={() => setDropdownOpen(false)}
                                         >
                                             {t('auth.my_profile', 'Mi perfil')}
                                         </Link>
                                         <Link
                                             href={localizedUrl('/orders')}
-                                            className="block px-4 py-2 hover:bg-gray-50 transition"
+                                            className="block px-4 py-2 transition"
+                                            style={{ backgroundColor: 'var(--gray-100)', color: 'var(--text-dark)' }}
+                                            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--gray-200)' }
+                                            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--gray-100)' }
                                             onClick={() => setDropdownOpen(false)}
                                         >
                                             {t('auth.my_orders', 'Mis pedidos')}
                                         </Link>
-                                        <div className="border-t border-gray-100 mt-1">
+                                        <div className="border-t mt-1" style={{ borderColor: 'var(--gray-200)' }}>
                                             <button
                                                 onClick={handleLogout}
-                                                className="w-full text-left px-4 py-2 hover:bg-red-50 text-red-500 transition"
+                                                className="w-full text-left px-4 py-2 transition"
+                                                style={{ backgroundColor: 'var(--gray-100)', color: 'var(--error-500)' }}
+                                                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#fee2e2' }
+                                                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--gray-100)' }
                                             >
                                                 {t('auth.logout', 'Cerrar sesión')}
                                             </button>
@@ -135,14 +144,20 @@ export default function MainLayout({ children }) {
                                     <>
                                         <Link
                                             href={localizedUrl('/login')}
-                                            className="block px-4 py-2 hover:bg-gray-50 transition"
+                                            className="block px-4 py-2 transition"
+                                            style={{ backgroundColor: 'var(--gray-100)', color: 'var(--text-dark)' }}
+                                            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--gray-200)' }
+                                            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--gray-100)' }
                                             onClick={() => setDropdownOpen(false)}
                                         >
                                             {t('auth.login_btn', 'Iniciar sesión')}
                                         </Link>
                                         <Link
                                             href={localizedUrl('/register')}
-                                            className="block px-4 py-2 hover:bg-gray-50 transition"
+                                            className="block px-4 py-2 transition"
+                                            style={{ backgroundColor: 'var(--gray-100)', color: 'var(--text-dark)' }}
+                                            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--gray-200)' }
+                                            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--gray-100)' }
                                             onClick={() => setDropdownOpen(false)}
                                         >
                                             {t('auth.register_btn', 'Crear cuenta')}

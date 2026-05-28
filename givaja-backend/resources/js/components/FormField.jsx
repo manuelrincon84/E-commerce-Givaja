@@ -1,13 +1,17 @@
 export default function FormField({ label, name, type = "text", value, onChange, error, placeholder = "", required = false, options = null, rows = 4 }) {
-  const baseInputClass = "w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-green-400";
-  const errorClass = error ? "border-red-500" : "";
+  const baseInputClass = "w-full border p-2 rounded focus:outline-none focus:ring-2";
+  const baseInputStyle = {
+    borderColor: error ? 'var(--error-500)' : 'var(--gray-300)',
+    '--tw-ring-color': 'var(--primary-500)'
+  };
+  const errorClass = error ? "" : "";
 
   return (
     <div className="mb-3">
       {label && (
         <label className="block mb-1 font-medium text-gray-700">
           {label}
-          {required && <span className="text-green-600 ml-1">*</span>}
+          {required && <span className="ml-1" style={{ color: 'var(--primary-600)' }}>*</span>}
         </label>
       )}
 

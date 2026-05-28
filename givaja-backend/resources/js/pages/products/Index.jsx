@@ -37,10 +37,11 @@ export default function ProductsIndex({ products, flash, search = "" }) {
     <MainLayout>
       <div className="card-section">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-3xl font-bold text-gray-800">{t("products.title")}</h2>
+          <h2 style={{ color: 'var(--text-dark)' }} className="text-3xl font-bold">{t("products.title")}</h2>
           <Link
             href={localizedUrl("/products/create")}
-            className="bg-green-400 hover:bg-green-500 text-white px-6 py-2 rounded font-medium transition"
+            style={{ backgroundColor: 'var(--primary-500)' }}
+            className="hover:opacity-90 text-white px-6 py-2 rounded font-medium transition"
           >
             {t("products.create_new")}
           </Link>
@@ -62,7 +63,7 @@ export default function ProductsIndex({ products, flash, search = "" }) {
         {/* Mostrar mensaje si no hay resultados */}
         {products.data && products.data.length === 0 ? (
           <div className="text-center py-8">
-            <p className="text-gray-500">
+            <p style={{ color: 'var(--gray-600)' }} className="">
               {search
                 ? `${t("products.no_products")} "${search}"`
                 : t("products.no_products")}
@@ -72,15 +73,15 @@ export default function ProductsIndex({ products, flash, search = "" }) {
           <Table headers={headers} rows={products.data || []}>
           {(product) => (
             <>
-              <td className="px-6 py-4 text-sm text-gray-900">{product.id}</td>
-              <td className="px-6 py-4 text-sm font-semibold text-gray-900">
+              <td style={{ color: 'var(--text-dark)' }} className="px-6 py-4 text-sm">{product.id}</td>
+              <td style={{ color: 'var(--text-dark)' }} className="px-6 py-4 text-sm font-semibold">
                 {product.name}
               </td>
-              <td className="px-6 py-4 text-sm text-gray-600">
+              <td style={{ color: 'var(--gray-600)' }} className="px-6 py-4 text-sm">
                 {product.description?.substring(0, 30)}
                 {product.description?.length > 30 ? "..." : ""}
               </td>
-              <td className="px-6 py-4 text-sm font-semibold text-gray-900">
+              <td style={{ color: 'var(--text-dark)' }} className="px-6 py-4 text-sm font-semibold">
                 ${Number(product.unit_price).toLocaleString("es-ES", {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
@@ -105,13 +106,13 @@ export default function ProductsIndex({ products, flash, search = "" }) {
                     className="h-10 w-10 object-cover rounded"
                   />
                 ) : (
-                  <span className="text-gray-400">-</span>
+                  <span style={{ color: 'var(--gray-500)' }} className="">-</span>
                 )}
               </td>
-              <td className="px-6 py-4 text-sm text-gray-600">
+              <td style={{ color: 'var(--gray-600)' }} className="px-6 py-4 text-sm">
                 {product.category?.name || "Sin categoría"}
               </td>
-              <td className="px-6 py-4 text-sm text-gray-600">
+              <td style={{ color: 'var(--gray-600)' }} className="px-6 py-4 text-sm">
                 {product.updated_by_user?.first_name || "Sin usuario"}{" "}
                 {product.updated_by_user?.last_name || ""}
               </td>
@@ -119,13 +120,15 @@ export default function ProductsIndex({ products, flash, search = "" }) {
                 <div className="flex gap-2">
                   <Link
                     href={localizedUrl(`/products/${product.id}`)}
-                    className="border-2 border-green-400 text-green-400 px-3 py-1 rounded hover:bg-green-50 transition text-xs font-medium"
+                    style={{ borderColor: 'var(--primary-500)', color: 'var(--primary-500)' }}
+                    className="border-2 px-3 py-1 rounded hover:opacity-80 transition text-xs font-medium"
                   >
                     {t("general.view", "Ver")}
                   </Link>
                   <Link
                     href={localizedUrl(`/products/${product.id}/edit`)}
-                    className="bg-green-400 text-white px-3 py-1 rounded hover:bg-green-500 transition text-xs font-medium"
+                    style={{ backgroundColor: 'var(--primary-500)' }}
+                    className="text-white px-3 py-1 rounded hover:opacity-80 transition text-xs font-medium"
                   >
                     {t("general.edit", "Editar")}
                   </Link>
@@ -152,10 +155,15 @@ export default function ProductsIndex({ products, flash, search = "" }) {
             className={`
                 px-4 py-2 rounded border
                 ${link.active
-                ? 'bg-green-400 text-white'
-                : 'bg-white text-gray-700'}
+                ? 'text-white'
+                : 'text-gray-700 hover:bg-gray-100'}
                 ${!link.url && 'opacity-50 pointer-events-none'}
-            `}/>
+            `}
+            style={{
+                backgroundColor: link.active ? 'var(--primary-500)' : 'white',
+                borderColor: link.active ? 'var(--primary-500)' : 'var(--gray-300)'
+            }}
+            />
        ))}
     </div>
 

@@ -12,7 +12,7 @@ export default function Home({ products, search = "" }) {
 
   return (
     <MainLayout>
-      <h1 className="text-2xl font-bold mb-6">{t('products.title', 'Productos')}</h1>
+      <h1 style={{ color: 'var(--text-dark)' }} className="text-2xl font-bold mb-6">{t('products.title', 'Productos')}</h1>
 
       {/* Buscador */}
       <div className="mb-6">
@@ -38,9 +38,9 @@ export default function Home({ products, search = "" }) {
               className="w-full h-48 object-cover rounded-lg"
             />
 
-            <h2 className="font-bold mt-2">{product.name}</h2>
+            <h2 style={{ color: 'var(--text-dark)' }} className="font-bold mt-2">{product.name}</h2>
 
-            <p className="text-green-600 font-semibold">
+            <p style={{ color: 'var(--primary-500)' }} className="font-semibold">
               ${Number(product.unit_price).toLocaleString()}
             </p>
           </div>
@@ -57,16 +57,22 @@ export default function Home({ products, search = "" }) {
         dangerouslySetInnerHTML={{ __html: link.label }}
         className={`
           px-4 py-2 rounded border
-          ${link.active
-            ? 'bg-green-400 text-white'
-            : 'bg-white text-gray-700 hover:bg-gray-100'}
-        `}
+          ${
+            link.active
+            ? 'text-white'
+            : 'text-gray-700 hover:bg-gray-100'
+          }`}
+        style={{
+          backgroundColor: link.active ? 'var(--primary-500)' : 'white',
+          borderColor: link.active ? 'var(--primary-500)' : 'var(--gray-300)'
+        }}
       />
     ) : (
       <span
         key={index}
         dangerouslySetInnerHTML={{ __html: link.label }}
-        className="px-4 py-2 rounded border bg-gray-100 text-gray-400 opacity-50"
+        style={{ backgroundColor: 'var(--gray-100)', color: 'var(--gray-500)' }}
+        className="px-4 py-2 rounded border opacity-50"
       />
     )
   ))}
@@ -91,25 +97,26 @@ export default function Home({ products, search = "" }) {
               className="w-full h-60 object-cover rounded-lg mb-4"
             />
 
-            <h2 className="text-xl font-bold">{selectedProduct.name}</h2>
+            <h2 style={{ color: 'var(--text-dark)' }} className="text-xl font-bold">{selectedProduct.name}</h2>
 
-            <p className="text-gray-600 mb-2">
+            <p style={{ color: 'var(--gray-600)' }} className="mb-2">
               {selectedProduct.description}
             </p>
 
-            <p className="font-semibold">
+            <p style={{ color: 'var(--text-dark)' }} className="font-semibold">
               {t('general.price', 'Precio')}: ${Number(selectedProduct.unit_price).toLocaleString()}
             </p>
 
-            <p>{t('products.stock', 'Stock')}: {selectedProduct.stock}</p>
+            <p style={{ color: 'var(--text-dark)' }}>{t('products.stock', 'Stock')}: {selectedProduct.stock}</p>
 
-            <p>
+            <p style={{ color: 'var(--text-dark)' }}>
               {t('products.category', 'Categoría')}: {selectedProduct.category?.name || t('general.no_results', 'Sin categoría')}
             </p>
 
             <button
               onClick={() => setSelectedProduct(null)}
-              className="mt-4 w-full bg-green-400 text-white py-2 rounded hover:bg-green-500"
+              className="mt-4 w-full text-white py-2 rounded hover:opacity-90"
+              style={{ backgroundColor: 'var(--primary-500)' }}
             >
               {t('general.cancel', 'Cerrar')}
             </button>

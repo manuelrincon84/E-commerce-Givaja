@@ -1,44 +1,77 @@
+@import './theme.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* Custom Button Classes */
 .btn-primary {
-  @apply bg-green-400 hover:bg-green-500 text-white px-4 py-2 rounded font-medium transition;
+  background-color: var(--primary-500);
+  @apply hover:opacity-90 text-white px-4 py-2 rounded font-medium transition;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-600);
 }
 
 .btn-danger {
-  @apply bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded font-medium transition;
+  background-color: var(--error-500);
+  @apply text-white px-4 py-2 rounded font-medium transition;
+}
+
+.btn-danger:hover {
+  background-color: var(--error-600);
 }
 
 .btn-secondary {
-  @apply bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded font-medium transition;
+  background-color: var(--gray-600);
+  @apply text-white px-4 py-2 rounded font-medium transition;
+}
+
+.btn-secondary:hover {
+  background-color: var(--gray-700);
 }
 
 .btn-outline {
-  @apply border-2 border-green-400 text-green-400 px-4 py-2 rounded hover:bg-green-50 font-medium transition;
+  border: 2px solid var(--primary-500);
+  color: var(--primary-500);
+  background-color: transparent;
+  @apply px-4 py-2 rounded font-medium transition;
+}
+
+.btn-outline:hover {
+  background-color: var(--primary-50);
 }
 
 /* Badge Classes */
 .badge-success {
-  @apply inline-block bg-green-200 text-green-800 px-3 py-1 rounded-full text-sm font-medium;
+  background-color: var(--primary-100);
+  color: var(--primary-700);
+  @apply inline-block px-3 py-1 rounded-full text-sm font-medium;
 }
 
 .badge-danger {
-  @apply inline-block bg-red-200 text-red-800 px-3 py-1 rounded-full text-sm font-medium;
+  background-color: var(--error-50);
+  color: var(--error-700);
+  @apply inline-block px-3 py-1 rounded-full text-sm font-medium;
 }
 
 .badge-primary {
-  @apply inline-block bg-blue-200 text-blue-800 px-3 py-1 rounded-full text-sm font-medium;
+  background-color: var(--info-50);
+  color: var(--info-600);
+  @apply inline-block px-3 py-1 rounded-full text-sm font-medium;
 }
 
 /* Card & Container Classes */
 .card-section {
-  @apply bg-white rounded-xl shadow-lg p-6 border border-gray-200;
+  @apply bg-white rounded-xl shadow-lg p-6;
+  border: 1px solid var(--gray-200);
 }
 
 .card-form {
-  @apply bg-gray-200 p-6 rounded-2xl shadow-lg border-2 border-green-400;
+  background-color: var(--gray-100);
+  border: 2px solid var(--primary-500);
+  @apply p-6 rounded-2xl shadow-lg;
 }
 
 .form-container {
@@ -49,24 +82,51 @@
   @apply w-full border-collapse bg-white rounded-lg shadow-md;
 }
 
+.table-header {
+  background-color: var(--primary-500);
+  @apply text-white;
+}
+
+.table-row:hover {
+  background-color: var(--gray-50);
+}
+
+.table-border {
+  border-color: var(--gray-200);
+}
+
 /* Input Field Classes */
 .input-field {
-  @apply w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-green-400;
+  border-color: var(--gray-300);
+  @apply w-full border p-2 rounded focus:outline-none focus:ring-2;
+  --tw-ring-color: var(--primary-500);
 }
 
 .input-error {
-  @apply border-red-500;
+  border-color: var(--error-500);
 }
 
 /* Label Classes */
-.label-required::after {
-  content: " *";
-  @apply text-green-600;
+.label-required {
+  @apply font-medium;
 }
 
-/* Utilities */
+.label-required::after {
+  content: " *";
+  color: var(--primary-600);
+}
+
+/* Text Classes */
 .text-muted {
-  @apply text-gray-500;
+  color: var(--gray-500);
+}
+
+.text-dark {
+  color: var(--text-dark);
+}
+
+.text-light {
+  color: var(--text-light);
 }
 
 .transition-smooth {

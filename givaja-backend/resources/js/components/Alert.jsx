@@ -5,7 +5,15 @@ export default function Alert({ message, type = "success", onClose = null }) {
 
   if (!visible || !message) return null;
 
-  const bgClass = type === "success" ? "bg-green-100 border-green-400 text-green-800" : "bg-red-100 border-red-400 text-red-800";
+  const bgStyle = type === "success" ? {
+    backgroundColor: 'var(--primary-50)',
+    borderLeftColor: 'var(--primary-500)',
+    color: 'var(--primary-700)'
+  } : {
+    backgroundColor: 'var(--error-50)',
+    borderLeftColor: 'var(--error-500)',
+    color: 'var(--error-700)'
+  };
 
   const handleClose = () => {
     setVisible(false);
@@ -13,7 +21,7 @@ export default function Alert({ message, type = "success", onClose = null }) {
   };
 
   return (
-    <div className={`border-l-4 p-4 mb-4 rounded ${bgClass}`}>
+    <div style={bgStyle} className="border-l-4 p-4 mb-4 rounded">
       <div className="flex justify-between items-center">
         <span>{message}</span>
         <button

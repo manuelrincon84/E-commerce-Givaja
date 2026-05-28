@@ -10,10 +10,11 @@ export default function Show({ product }) {
     <MainLayout>
       <div className="card-section max-w-2xl mx-auto">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-3xl font-bold text-gray-800">{t("products.product_details")}</h2>
+          <h2 style={{ color: 'var(--text-dark)' }} className="text-3xl font-bold">{t("products.product_details")}</h2>
           <Link
             href={localizedUrl("/products")}
-            className="bg-gray-400 hover:bg-gray-500 text-white px-6 py-2 rounded font-medium transition"
+            style={{ backgroundColor: 'var(--gray-600)' }}
+            className="hover:opacity-90 text-white px-6 py-2 rounded font-medium transition"
           >
             {t("general.back", "Volver")}
           </Link>
@@ -22,29 +23,29 @@ export default function Show({ product }) {
         <div className="bg-white rounded-lg shadow p-6 space-y-6">
           <div className="grid grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">ID:</label>
-              <p className="text-gray-900">{product.id}</p>
+              <label style={{ color: 'var(--text-dark)' }} className="block text-sm font-semibold mb-2">ID:</label>
+              <p style={{ color: 'var(--text-dark)' }} className="">{product.id}</p>
             </div>
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">{t("products.category")}:</label>
-              <p className="text-gray-900">{product.category?.name || t("general.no_category", "Sin categoría")}</p>
+              <label style={{ color: 'var(--text-dark)' }} className="block text-sm font-semibold mb-2">{t("products.category")}:</label>
+              <p style={{ color: 'var(--text-dark)' }} className="">{product.category?.name || t("general.no_category", "Sin categoría")}</p>
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">{t("general.name", "Nombre")}:</label>
-            <p className="text-gray-900">{product.name}</p>
+            <label style={{ color: 'var(--text-dark)' }} className="block text-sm font-semibold mb-2">{t("general.name", "Nombre")}:</label>
+            <p style={{ color: 'var(--text-dark)' }} className="">{product.name}</p>
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">{t("products.description", "Descripción")}:</label>
-            <p className="text-gray-900">{product.description || t("general.no_description", "Sin descripción")}</p>
+            <label style={{ color: 'var(--text-dark)' }} className="block text-sm font-semibold mb-2">{t("products.description", "Descripción")}:</label>
+            <p style={{ color: 'var(--text-dark)' }} className="">{product.description || t("general.no_description", "Sin descripción")}</p>
           </div>
 
           <div className="grid grid-cols-3 gap-6">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">{t("products.price", "Precio")}:</label>
-              <p className="text-gray-900 font-semibold">
+              <label style={{ color: 'var(--text-dark)' }} className="block text-sm font-semibold mb-2">{t("products.price", "Precio")}:</label>
+              <p style={{ color: 'var(--text-dark)' }} className="font-semibold">
                 ${Number(product.unit_price).toLocaleString("es-ES", {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
@@ -52,14 +53,14 @@ export default function Show({ product }) {
               </p>
             </div>
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">{t("products.stock", "Stock")}:</label>
-              <p className={`font-semibold ${product.stock > 0 ? "text-green-600" : "text-red-600"}`}>
+              <label style={{ color: 'var(--text-dark)' }} className="block text-sm font-semibold mb-2">{t("products.stock", "Stock")}:</label>
+              <p style={{ color: product.stock > 0 ? 'var(--primary-500)' : 'var(--error-500)' }} className="font-semibold">
                 {product.stock} {t("general.units", "unidades")}
               </p>
             </div>
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">{t("products.user", "Usuario")}:</label>
-              <p className="text-gray-900">
+              <label style={{ color: 'var(--text-dark)' }} className="block text-sm font-semibold mb-2">{t("products.user", "Usuario")}:</label>
+              <p style={{ color: 'var(--text-dark)' }} className="">
                 {product.updated_by_user?.first_name} {product.updated_by_user?.last_name}
               </p>
             </div>
@@ -67,7 +68,7 @@ export default function Show({ product }) {
 
           {product.image_url && (
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">{t("general.image", "Imagen")}:</label>
+              <label style={{ color: 'var(--text-dark)' }} className="block text-sm font-semibold mb-2">{t("general.image", "Imagen")}:</label>
               <img
                 src={product.image_url}
                 alt={product.name}
@@ -79,15 +80,15 @@ export default function Show({ product }) {
           {product.created_at && (
             <div className="grid grid-cols-2 gap-6 border-t pt-6">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">{t("products.created", "Creado")}:</label>
-                <p className="text-gray-600 text-sm">
+                <label style={{ color: 'var(--text-dark)' }} className="block text-sm font-semibold mb-2">{t("products.created", "Creado")}:</label>
+                <p style={{ color: 'var(--gray-600)' }} className="text-sm">
                   {new Date(product.created_at).toLocaleDateString("es-ES")}
                 </p>
               </div>
               {product.updated_at && (
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Actualizado:</label>
-                  <p className="text-gray-600 text-sm">
+                  <label style={{ color: 'var(--text-dark)' }} className="block text-sm font-semibold mb-2">Actualizado:</label>
+                  <p style={{ color: 'var(--gray-600)' }} className="text-sm">
                     {new Date(product.updated_at).toLocaleDateString("es-ES")}
                   </p>
                 </div>
@@ -98,13 +99,15 @@ export default function Show({ product }) {
           <div className="flex gap-3 border-t pt-6">
             <Link
               href={localizedUrl(`/products/${product.id}/edit`)}
-              className="bg-green-400 hover:bg-green-500 text-white px-6 py-2 rounded font-medium transition"
+              style={{ backgroundColor: 'var(--primary-500)' }}
+              className="hover:opacity-90 text-white px-6 py-2 rounded font-medium transition"
             >
               Editar
             </Link>
             <Link
               href={localizedUrl("/products")}
-              className="bg-gray-400 hover:bg-gray-500 text-white px-6 py-2 rounded font-medium transition"
+              style={{ backgroundColor: 'var(--gray-600)' }}
+              className="hover:opacity-90 text-white px-6 py-2 rounded font-medium transition"
             >
               Volver
             </Link>

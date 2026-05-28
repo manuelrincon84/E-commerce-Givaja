@@ -34,10 +34,11 @@ export default function PaymentsIndex({ payments, success }) {
     <MainLayout>
       <div className="card-section">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-3xl font-bold text-gray-800">Pagos</h2>
+          <h2 style={{ color: 'var(--text-dark)' }} className="text-3xl font-bold">Pagos</h2>
           <Link
             href="/payments/create"
-            className="bg-green-400 hover:bg-green-500 text-white px-6 py-2 rounded font-medium transition"
+            style={{ backgroundColor: 'var(--primary-500)' }}
+            className="hover:opacity-90 text-white px-6 py-2 rounded font-medium transition"
           >
             + Crear Pago
           </Link>
@@ -48,11 +49,11 @@ export default function PaymentsIndex({ payments, success }) {
         <Table headers={headers} rows={payments.data || []}>
           {(payment) => (
             <>
-              <td className="px-6 py-4 text-sm text-gray-900">{payment.id}</td>
-              <td className="px-6 py-4 text-sm font-semibold text-gray-900">
+              <td style={{ color: 'var(--text-dark)' }} className="px-6 py-4 text-sm">{payment.id}</td>
+              <td style={{ color: 'var(--text-dark)' }} className="px-6 py-4 text-sm font-semibold">
                 #{payment.order_id}
               </td>
-              <td className="px-6 py-4 text-sm text-gray-600">
+              <td style={{ color: 'var(--gray-600)' }} className="px-6 py-4 text-sm">
                 {new Date(payment.payment_date).toLocaleDateString('es-ES', {
                   year: 'numeric',
                   month: '2-digit',
@@ -61,7 +62,7 @@ export default function PaymentsIndex({ payments, success }) {
                   minute: '2-digit'
                 })}
               </td>
-              <td className="px-6 py-4 text-sm font-semibold text-green-600">
+              <td style={{ color: 'var(--primary-500)' }} className="px-6 py-4 text-sm font-semibold">
                 ${Number(payment.amount).toLocaleString("es-ES", {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
@@ -76,13 +77,15 @@ export default function PaymentsIndex({ payments, success }) {
                 <div className="flex gap-2">
                   <button
                     onClick={() => setSelectedPayment(payment)}
-                    className="border-2 border-green-400 text-green-400 px-3 py-1 rounded hover:bg-green-50 transition text-xs font-medium"
+                    style={{ borderColor: 'var(--primary-500)', color: 'var(--primary-500)' }}
+                    className="border-2 px-3 py-1 rounded hover:opacity-80 transition text-xs font-medium"
                   >
                     Ver
                   </button>
                   <Link
                     href={`/payments/${payment.id}/edit`}
-                    className="bg-green-400 text-white px-3 py-1 rounded hover:bg-green-500 transition text-xs font-medium"
+                    style={{ backgroundColor: 'var(--primary-500)' }}
+                    className="text-white px-3 py-1 rounded hover:opacity-80 transition text-xs font-medium"
                   >
                     Editar
                   </Link>

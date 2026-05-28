@@ -26,10 +26,11 @@ export default function CategoriesIndex({ categories, success }) {
     <MainLayout>
       <div className="card-section">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-3xl font-bold text-gray-800">{t("categories.title")}</h2>
+          <h2 style={{ color: 'var(--text-dark)' }} className="text-3xl font-bold">{t("categories.title")}</h2>
           <Link
             href={localizedUrl("/categories/create")}
-            className="bg-green-400 hover:bg-green-500 text-white px-6 py-2 rounded font-medium transition"
+            style={{ backgroundColor: 'var(--primary-500)' }}
+            className="hover:opacity-90 text-white px-6 py-2 rounded font-medium transition"
           >
             {t("categories.create_new")}
           </Link>
@@ -40,11 +41,11 @@ export default function CategoriesIndex({ categories, success }) {
         <Table headers={headers} rows={categories.data || []}>
           {(category) => (
             <>
-              <td className="px-6 py-4 text-sm text-gray-900">{category.id}</td>
-              <td className="px-6 py-4 text-sm font-semibold text-gray-900">
+              <td style={{ color: 'var(--text-dark)' }} className="px-6 py-4 text-sm">{category.id}</td>
+              <td style={{ color: 'var(--text-dark)' }} className="px-6 py-4 text-sm font-semibold">
                 {category.name}
               </td>
-              <td className="px-6 py-4 text-sm text-gray-600">
+              <td style={{ color: 'var(--gray-600)' }} className="px-6 py-4 text-sm">
                 {category.description?.substring(0, 50)}
                 {category.description?.length > 50 ? "..." : ""}
               </td>
@@ -52,13 +53,15 @@ export default function CategoriesIndex({ categories, success }) {
                 <div className="flex gap-2">
                   <Link
                     href={localizedUrl(`/categories/${category.id}`)}
-                    className="border-2 border-green-400 text-green-400 px-3 py-1 rounded hover:bg-green-50 transition text-xs font-medium"
+                    style={{ borderColor: 'var(--primary-500)', color: 'var(--primary-500)' }}
+                    className="border-2 px-3 py-1 rounded hover:opacity-80 transition text-xs font-medium"
                   >
                     {t("general.view", "Ver")}
                   </Link>
                   <Link
                     href={localizedUrl(`/categories/${category.id}/edit`)}
-                    className="bg-green-400 text-white px-3 py-1 rounded hover:bg-green-500 transition text-xs font-medium"
+                    style={{ backgroundColor: 'var(--primary-500)' }}
+                    className="text-white px-3 py-1 rounded hover:opacity-80 transition text-xs font-medium"
                   >
                     {t("general.edit", "Editar")}
                   </Link>

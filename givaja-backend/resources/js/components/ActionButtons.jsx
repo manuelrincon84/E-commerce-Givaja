@@ -16,7 +16,8 @@ export default function ActionButtons({ showHref, editHref, onDelete, compact = 
       {showHref && (
         <button
           onClick={() => setSelectedItem && setSelectedItem(true)}
-          className={`${baseClass} border-2 border-green-400 text-green-400 rounded hover:bg-green-50 transition`}
+          style={{ borderColor: 'var(--primary-500)', color: 'var(--primary-500)' }}
+          className={`${baseClass} border-2 rounded hover:opacity-80 transition`}
         >
           Ver
         </button>
@@ -25,7 +26,8 @@ export default function ActionButtons({ showHref, editHref, onDelete, compact = 
       {editHref && (
         <Link
           href={editHref}
-          className={`${baseClass} bg-green-400 text-white rounded hover:bg-green-500 transition inline-block`}
+          style={{ backgroundColor: 'var(--primary-500)' }}
+          className={`${baseClass} text-white rounded hover:opacity-80 transition inline-block`}
         >
           Editar
         </Link>
@@ -34,7 +36,8 @@ export default function ActionButtons({ showHref, editHref, onDelete, compact = 
       {onDelete && (
         <button
           onClick={handleDelete}
-          className={`${baseClass} bg-red-500 text-white rounded hover:bg-red-600 transition`}
+          style={{ backgroundColor: 'var(--error-500)' }}
+          className={`${baseClass} text-white rounded hover:opacity-80 transition`}
         >
           Eliminar
         </button>

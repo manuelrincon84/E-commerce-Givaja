@@ -27,10 +27,11 @@ export default function UsersIndex({ users, success }) {
     <MainLayout>
       <div className="card-section">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-3xl font-bold text-gray-800">{t("users.title")}</h2>
+          <h2 style={{ color: 'var(--text-dark)' }} className="text-3xl font-bold">{t("users.title")}</h2>
           <Link
             href={localizedUrl("/users/create")}
-            className="bg-green-400 hover:bg-green-500 text-white px-6 py-2 rounded font-medium transition"
+            style={{ backgroundColor: 'var(--primary-500)' }}
+            className="hover:opacity-90 text-white px-6 py-2 rounded font-medium transition"
           >
            {t("users.create_new")}
           </Link>
@@ -41,12 +42,12 @@ export default function UsersIndex({ users, success }) {
         <Table headers={headers} rows={users.data || []}>
           {(user) => (
             <>
-              <td className="px-6 py-4 text-sm text-gray-900">{user.id}</td>
-              <td className="px-6 py-4 text-sm font-semibold text-gray-900">
+              <td style={{ color: 'var(--text-dark)' }} className="px-6 py-4 text-sm">{user.id}</td>
+              <td style={{ color: 'var(--text-dark)' }} className="px-6 py-4 text-sm font-semibold">
                 {user.first_name}
               </td>
-              <td className="px-6 py-4 text-sm text-gray-600">{user.last_name}</td>
-              <td className="px-6 py-4 text-sm text-gray-600">{user.email}</td>
+              <td style={{ color: 'var(--gray-600)' }} className="px-6 py-4 text-sm">{user.last_name}</td>
+              <td style={{ color: 'var(--gray-600)' }} className="px-6 py-4 text-sm">{user.email}</td>
               <td className="px-6 py-4 text-sm">
                 <Badge type="primary">{user.role}</Badge>
               </td>
@@ -54,19 +55,22 @@ export default function UsersIndex({ users, success }) {
                 <div className="flex gap-2">
                   <Link
                     href={localizedUrl(`/users/${user.id}`)}
-                    className="border-2 border-green-400 text-green-400 px-3 py-1 rounded hover:bg-green-50 transition text-xs font-medium"
+                    style={{ borderColor: 'var(--primary-500)', color: 'var(--primary-500)' }}
+                    className="border-2 px-3 py-1 rounded hover:opacity-80 transition text-xs font-medium"
                   >
                     {t("general.view")}
                   </Link>
                   <Link
                     href={localizedUrl(`/users/${user.id}/edit`)}
-                    className="bg-green-400 text-white px-3 py-1 rounded hover:bg-green-500 transition text-xs font-medium"
+                    style={{ backgroundColor: 'var(--primary-500)' }}
+                    className="text-white px-3 py-1 rounded hover:opacity-90 transition text-xs font-medium"
                   >
                     {t("general.edit")}
                   </Link>
                   <button
                     onClick={() => handleDelete(user.id)}
-                    className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition text-xs font-medium"
+                    style={{ backgroundColor: 'var(--error-500)' }}
+                    className="text-white px-3 py-1 rounded hover:opacity-90 transition text-xs font-medium"
                   >
                     {t("general.delete")}
                   </button>
