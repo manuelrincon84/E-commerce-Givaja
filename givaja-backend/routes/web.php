@@ -70,6 +70,11 @@ Route::where(['locale' => 'en|es'])
         Route::inertia('/dashboard', 'Dashboard')
             ->name('dashboard');
 
+        Route::get('/api-products', function () {
+        return Inertia::render('products/ApiProductsTest');
+
+    });
+
         /*
         |--------------------------------------------------------------------------
         | Resource Routes
@@ -84,7 +89,7 @@ Route::where(['locale' => 'en|es'])
             Route::post('/login', [AuthController::class, 'login'])->name('login.post');
             Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
             Route::post('/register', [AuthController::class, 'register'])->name('register.post');
-});
+        });
 
             // Logout (auth only)
         Route::post('/logout', [AuthController::class, 'logout'])
@@ -102,6 +107,7 @@ Route::where(['locale' => 'en|es'])
         Route::resource('payments', PaymentController::class);
 
     });
+
 
 /*
 |--------------------------------------------------------------------------
