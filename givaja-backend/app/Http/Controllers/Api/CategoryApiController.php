@@ -33,8 +33,11 @@ class CategoryApiController extends Controller
             'minimum_quantity' => 'required|integer|min:0',
         ]);
 
-        Category::create($validated);
+        $category = Category::create($validated);
 
-        return response()->json(['message' => 'Category created successfully.'], 201);
+        return response()->json([
+            'message' => 'Category created successfully.',
+            'data'    => new CategoryResource($category)
+        ], 201);
     }
 }
