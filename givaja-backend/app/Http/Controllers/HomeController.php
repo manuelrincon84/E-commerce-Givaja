@@ -8,11 +8,11 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request, string $locale)
     {
         $search = $request->input('search', '');
 
-        $query = Product::latest();
+        $query = Product::with('category')->latest();
 
         if ($search) {
             $query->search($search);

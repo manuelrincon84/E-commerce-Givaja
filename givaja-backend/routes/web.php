@@ -13,6 +13,8 @@ use App\Http\Controllers\CustomizationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\LocaleController;
+use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use Inertia\Inertia;
 
 /*
@@ -60,15 +62,13 @@ Route::where(['locale' => 'en|es'])
 
         // Home page
         Route::get('/', [HomeController::class, 'index'])->name('home');
-        Route::get('/home', [HomeController::class, 'index'])->name('home.alt');
+       // Route::get('/home', [HomeController::class, 'index'])->name('home.alt');
 
         /*
         |--------------------------------------------------------------------------
         | Static Pages (Inertia)
         |--------------------------------------------------------------------------
         */
-        Route::inertia('/dashboard', 'Dashboard')
-            ->name('dashboard');
 
         Route::get('/api-products', function () {
         return Inertia::render('products/ApiProductsTest');
@@ -77,25 +77,43 @@ Route::where(['locale' => 'en|es'])
 
         /*
         |--------------------------------------------------------------------------
-        | Resource Routes
+        | RUTAS DE AUTENTICACIÓN - Guest only
         |--------------------------------------------------------------------------
-        |
-        | CRUD completos manejados mediante controllers.
-        | Los controllers retornan Inertia::render(...)
-        |
         */
         Route::middleware('guest')->group(function () {
             Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
             Route::post('/login', [AuthController::class, 'login'])->name('login.post');
             Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
             Route::post('/register', [AuthController::class, 'register'])->name('register.post');
+
+            // Forgot Password
+            Route::get('/forgot-password', [ForgotPasswordController::class, 'show'])->name('password.request');
+            Route::post('/forgot-password', [ForgotPasswordController::class, 'send'])->name('password.email');
+            Route::get('/reset-password', [ForgotPasswordController::class, 'showReset'])->name('password.reset');
+            Route::post('/reset-password', [ForgotPasswordController::class, 'reset'])->name('password.update');
         });
 
-            // Logout (auth only)
+        // Logout (auth only)
         Route::post('/logout', [AuthController::class, 'logout'])
             ->middleware('auth')
             ->name('logout');
 
+        /*
+        |--------------------------------------------------------------------------
+        | RUTAS DE PERFIL - Auth only
+        |--------------------------------------------------------------------------
+        */
+        Route::middleware('auth')->group(function () {
+            Route::get('/profile', [UserProfileController::class, 'edit'])->name('profile.edit');
+            Route::post('/profile', [UserProfileController::class, 'update'])->name('profile.update');
+            Route::delete('/profile/avatar', [UserProfileController::class, 'deleteAvatar'])->name('profile.avatar.delete');
+        });
+
+        /*
+        |--------------------------------------------------------------------------
+        | RESOURCE ROUTES - CRUD completos
+        |--------------------------------------------------------------------------
+        */
         Route::resource('products', ProductController::class);
         Route::resource('categories', CategoryController::class);
         Route::resource('users', UserController::class);

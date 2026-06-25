@@ -42,7 +42,7 @@ class AuthController extends Controller
         }
 
         $credentials = $request->validate([
-            'role' => ['required', new Enum(UserRole::class)],
+            //'role' => ['required', new Enum(UserRole::class)],
             'email'    => 'required|email',
             'password' => 'required|string',
         ]);

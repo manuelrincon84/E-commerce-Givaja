@@ -36,7 +36,7 @@ class LocaleController extends Controller
         );
 
         $referer = $request->header('referer');
-        $redirectUrl = $referer ?? route('home');
+        $redirectUrl = $referer ?? route('home', ['locale' => $locale]);
 
         // Extraer la URL y remover el prefijo de idioma anterior si existe
         $url = parse_url($redirectUrl, PHP_URL_PATH);

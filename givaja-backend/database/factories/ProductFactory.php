@@ -24,7 +24,7 @@ class ProductFactory extends Factory
 
         // Evita consultar la BD 1000 veces 🔥
         $categories ??= Category::pluck('id')->toArray();
-        $vendors ??= User::where('role', 'Vendedor')->pluck('id')->toArray();
+        $vendors ??= User::where('role', 'Seller')->pluck('id')->toArray();
         return [
             'category_id' => !empty($categories)
                 ? fake()->randomElement($categories)
